@@ -1,5 +1,5 @@
 package com.placeToBeer.groupService.entities
 
-enum class Role {
+public enum class Role {
     MEMBER, ADMIN, OWNER
 }

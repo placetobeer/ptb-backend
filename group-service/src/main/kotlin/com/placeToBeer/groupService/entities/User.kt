@@ -1,4 +1,10 @@
 package com.placeToBeer.groupService.entities
 
-class User(val id:Int, var name:String?) {
+import javax.persistence.Entity
+import javax.persistence.Id
+
+@Entity
+class User(
+        @Id val id:Int,
+        var name:String) {
 }
