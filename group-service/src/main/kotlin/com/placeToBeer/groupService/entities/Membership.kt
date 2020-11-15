@@ -1,16 +1,14 @@
 package com.placeToBeer.groupService.entities
 
 
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.ManyToMany
-import javax.persistence.OneToMany
+import javax.persistence.*
 
 
 @Entity
 class Membership(
         @Id val membershipID: Int,
-        member : User,
+        @ManyToOne()
+        val member : User,
         var role : Role) {
         constructor() {
         }
