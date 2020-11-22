@@ -1,7 +1,9 @@
 package com.placeToBeer.groupService
 
+
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+
 
 @SpringBootApplication
 open class Application
