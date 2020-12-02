@@ -19,7 +19,7 @@ internal class GroupControllerTest {
 
     @Test
     fun whenGetGroupListWithValidId_thenReturnValidAnswer(){
-        val userId = 1
+        val userId: Long = 1
         val shouldGroupList: MutableList<Group> = mutableListOf(Group(1, "ClubCrew"), Group(2, "Hüttengaudis"), Group(3, "Corga"))
 
 

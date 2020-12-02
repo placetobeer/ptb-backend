@@ -34,7 +34,7 @@ private var objectMapper: ObjectMapper){
 
     @Test
     fun whenValidInput_thenReturnValidAnswer() {
-        val userId = 1
+        val userId: Long = 1
         val groupList: MutableList<Group> = mutableListOf(Group(1, "ClubCrew"), Group(2, "Hüttengaudis"), Group(3, "Corga"))
 
         whenever(mockGroupService.getGroupList(userId)).thenReturn(groupList)
