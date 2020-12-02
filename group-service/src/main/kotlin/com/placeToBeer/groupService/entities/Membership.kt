@@ -5,7 +5,7 @@ import javax.persistence.*
 
 
 @Entity
-@Table() //schema = "memberships"
+//@Table() //schema = "memberships"
 data class Membership(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)

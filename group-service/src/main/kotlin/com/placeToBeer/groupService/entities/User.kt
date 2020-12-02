@@ -3,7 +3,7 @@ package com.placeToBeer.groupService.entities
 import javax.persistence.*
 
 @Entity
-@Table(schema = "users") //schema = "users"
+//@Table() //schema = "users"
 data class User
         constructor(
         @Id
