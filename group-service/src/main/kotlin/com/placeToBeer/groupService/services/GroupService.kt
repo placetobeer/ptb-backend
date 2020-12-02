@@ -5,12 +5,13 @@ import com.placeToBeer.groupService.entities.Membership
 import com.placeToBeer.groupService.entities.Role
 import com.placeToBeer.groupService.entities.User
 import com.placeToBeer.groupService.gateways.GroupRepository
+import com.placeToBeer.groupService.gateways.MembershipRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
-class GroupService (private var groupRepository: GroupRepository){
+class GroupService (private var groupRepository: GroupRepository, private var membershipRepository: MembershipRepository){
 
     private var logger: Logger = LoggerFactory.getLogger(GroupService::class.java)
 
