@@ -1,7 +1,7 @@
 package com.placeToBeer.groupService.restPresenters
 
-import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.whenever
 import com.placeToBeer.groupService.entities.Group
 import com.placeToBeer.groupService.entities.Membership
 import com.placeToBeer.groupService.entities.Role
@@ -11,27 +11,26 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 
+internal class GroupControllerTest {
 
-internal class GroupControllerTest() {
+    private val mockGroupService: GroupService = mock()
+
+    private val groupController = GroupController(mockGroupService)
 
     @Test
-    fun checkGetGroupListByUserId(){
+    fun whenGetGroupListWithValidId_thenReturnValidAnswer(){
         val userId = 1
         var membershipList1: MutableList<Membership> = mutableListOf(Membership(1, User(1, "Tom"), Role.MEMBER), Membership(2, User(2, "Patrick"), Role.MEMBER))
         var membershipList2: MutableList<Membership> = mutableListOf(Membership(1, User(1, "Tom"), Role.MEMBER), Membership(3, User(3, "Lucie"), Role.MEMBER))
-        var groupList: MutableList<Group> = mutableListOf(Group(1, "ClubCrew", membershipList1), Group(2, "Hüttengaudis", membershipList2))
+        var shouldGroupList: MutableList<Group> = mutableListOf(Group(1, "ClubCrew", membershipList1), Group(2, "Hüttengaudis", membershipList2))
 
         /* Given */
-        val mock = mock<GroupService> {
-            on { getGroupList(userId) } doReturn groupList
-        }
-
-        val groupController = GroupController(mock)
+        whenever(mockGroupService.getGroupList(userId)).thenReturn(shouldGroupList)
 
         /* When */
         val givenGroupList = groupController.getGroupListByUserId(userId)
 
         /* Then */
-        assertThat(givenGroupList).isEqualTo(groupList)
+        assertThat(givenGroupList).isEqualTo(shouldGroupList)
     }
 }
