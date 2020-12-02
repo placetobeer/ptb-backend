@@ -1,14 +1,11 @@
 package com.placeToBeer.groupService.entities
 
 import io.swagger.annotations.ApiModelProperty
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.OneToMany
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
+import javax.persistence.*
 
 @Entity
-class Group(
+@Table() //schema = "groups"
+data class Group(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         @ApiModelProperty(
@@ -21,14 +18,15 @@ class Group(
                 value = "Name of the group",
                 example = "Bratis Kartoffeln",
                 required = true)
-        var name: String,
-
+        var name: String)
+/*
         @OneToMany()
         @ApiModelProperty(
                 value = "List of all memberships associated to this group",
                 dataType = "List")
-        var memberships: MutableList<Membership>) {
-    protected constructor():this(0,"",mutableListOf(Membership())) {
+        var memberships: MutableList<Membership>)
+*/  {
+    constructor():this(0,""/*mutableListOf(Membership())*/) {
     }
 
 }

@@ -1,13 +1,10 @@
 package com.placeToBeer.groupService.entities
 
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.OneToMany
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
+import javax.persistence.*
 
 @Entity
-class User
+@Table(schema = "users") //schema = "users"
+data class User
         constructor(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
