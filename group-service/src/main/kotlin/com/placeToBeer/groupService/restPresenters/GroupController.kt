@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*
 class GroupController (private val groupService: GroupService){
 
     @ApiOperation(value = "View list of groups that refer to the user by membership")
-    @GetMapping(value = [""], params = ["userId"],produces = ["application/json"])
-    fun getGroupListByUserId(@RequestParam userId: Int): List<Group>{
+    @GetMapping(value = [""], params = ["userId"], produces = ["application/json;charset=UTF-8"])
+    fun getGroupListByUserId(@RequestParam userId: Int): List<Group> {
         return groupService.getGroupList(userId)
     }
 }
