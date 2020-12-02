@@ -9,7 +9,7 @@ import javax.persistence.*
 data class Membership(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
-        val membershipID: Int,
+        val membershipID: Long,
         @ManyToOne()
         val group: Group,
         @ManyToOne()

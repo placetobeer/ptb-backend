@@ -8,7 +8,7 @@ data class User
         constructor(
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
-        var id:Int,
+        var id:Long,
         var name:String){
         constructor():this(0, "")
 }
