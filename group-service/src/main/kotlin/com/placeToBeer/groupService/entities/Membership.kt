@@ -14,10 +14,10 @@ data class Membership(
         val membershipID: Long,
         @NotNull
         @ManyToOne()
-        val group: Group,
+        var group: Group,
         @NotNull
         @ManyToOne()
-        val member : User,
+        var member : User,
         @NotNull
         var role : Role) {
         constructor(): this(0, Group(), User(), Role.MEMBER) {
