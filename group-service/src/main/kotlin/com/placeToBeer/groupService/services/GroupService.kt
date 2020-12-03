@@ -15,11 +15,6 @@ class GroupService (private var membershipRepository: MembershipRepository, priv
     private var logger: Logger = LoggerFactory.getLogger(GroupService::class.java)
 
     fun getGroupList(userId: Long): List<Group>{
-        //mock
-        val mockGroupList: MutableList<Group> = mutableListOf(Group(1, "ClubCrew"), Group(2, "Hüttengaudis"), Group(3, "Corga"))
-        logger.warn("Returning mock data for getGroupList by userId. Should be implemented")
-
-        /*real code
         val groupList = mutableListOf<Group>()
         val user = userRepository.findById(userId)
         if(user.isEmpty){
@@ -30,8 +25,7 @@ class GroupService (private var membershipRepository: MembershipRepository, priv
         for(membership in memberships){
             groupList.add(membership.group)
         }
-         */
 
-        return mockGroupList
+        return groupList
     }
 }
