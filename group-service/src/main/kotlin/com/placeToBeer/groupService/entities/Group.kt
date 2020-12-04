@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull
 import javax.persistence.*
 
 @Entity
-@Table(name = "groups") //schema = "groups"
+@Table(name = "friend_group") //schema = "groups"
 data class Group(
         @Id
         @NotNull
