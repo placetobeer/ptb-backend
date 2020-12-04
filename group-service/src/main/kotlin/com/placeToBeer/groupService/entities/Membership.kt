@@ -10,7 +10,7 @@ import javax.persistence.*
 data class Membership(
         @Id
         @NotNull
-        @GeneratedValue(strategy = GenerationType.AUTO)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         val membershipID: Long,
         @NotNull
         @ManyToOne()

@@ -9,7 +9,7 @@ data class User
         constructor(
         @Id
         @NotNull
-        @GeneratedValue(strategy = GenerationType.AUTO)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id:Long,
         @Column(nullable = false)
         var name:String){
