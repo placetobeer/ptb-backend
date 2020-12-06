@@ -29,7 +29,7 @@ private var objectMapper: ObjectMapper) {
 
     @Test
     fun whenValidInput_thenReturns200() {
-        mockMvc.perform(MockMvcRequestBuilders.get("/membership")
+        mockMvc.perform(MockMvcRequestBuilders.get("/memberships")
                 .param("groupId", "$groupId"))
 
                 .andExpect(MockMvcResultMatchers.status().isOk)
@@ -40,7 +40,7 @@ private var objectMapper: ObjectMapper) {
     fun whenValidInput_thenReturnValidAnswer() {
         whenever(mockMembershipService.getMembershipList(groupId)).thenReturn(userMemberships)
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/membership")
+        mockMvc.perform(MockMvcRequestBuilders.get("/memberships")
                 .param("groupId", "$groupId"))
 
                 .andExpect(MockMvcResultMatchers.status().isOk)

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @Api(description = "Operations directly related to memberships")
-@RequestMapping("/membership")
+@RequestMapping("/memberships")
 class MembershipController(private val membershipService: MembershipService) {
 
     @ApiOperation(value = "View list of memberships without groupdata that refer to a group")
