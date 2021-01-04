@@ -21,7 +21,6 @@ data class Group(
                 value = "Name of the group",
                 example = "Bratis Kartoffeln",
                 required = true)
-        @Column(nullable = false)
         var name: String)
 /*
         @OneToMany()
