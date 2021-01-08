@@ -3,9 +3,6 @@ package com.placeToBeer.groupService.restPresenters
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import com.placeToBeer.groupService.entities.Group
-import com.placeToBeer.groupService.entities.Membership
-import com.placeToBeer.groupService.entities.Role
-import com.placeToBeer.groupService.entities.User
 import com.placeToBeer.groupService.services.GroupService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -27,7 +24,7 @@ internal class GroupControllerTest {
 
 
         /* Given */
-        whenever(mockGroupService.getGroupList(userId)).thenReturn(shouldGroupList)
+        whenever(mockGroupService.getGroupListByUserId(userId)).thenReturn(shouldGroupList)
 
         /* When */
         val givenGroupList = groupController.getGroupListByUserId(userId)

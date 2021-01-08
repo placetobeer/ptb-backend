@@ -5,10 +5,13 @@ import com.nhaarman.mockitokotlin2.whenever
 import com.placeToBeer.groupService.entities.Group
 import com.placeToBeer.groupService.entities.Membership
 import com.placeToBeer.groupService.entities.User
+import com.placeToBeer.groupService.exceptions.UserNotFoundException
 import com.placeToBeer.groupService.gateways.MembershipRepository
 import com.placeToBeer.groupService.gateways.UserRepository
 import org.assertj.core.api.Assertions
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.lang.Exception
 import java.util.*
 
 internal class GroupServiceTest {
@@ -18,9 +21,10 @@ internal class GroupServiceTest {
 
     private val groupService = GroupService(mockMembershipRepository, mockUserRepository)
 
-
     private val userId = 1L
-    private var shouldGroupList: List<Group> = emptyList()
+    private var expectedGroupList: List<Group> = emptyList()
+
+    private var exception: Exception? = null
 
     init {
         val user = User()
@@ -28,7 +32,7 @@ internal class GroupServiceTest {
 
         val group1 = Group()
         val group2 = Group()
-        shouldGroupList = listOf(group1, group2)
+        expectedGroupList = listOf(group1, group2)
 
         val membership1 = Membership()
         membership1.group = group1
@@ -41,18 +45,34 @@ internal class GroupServiceTest {
         whenever(mockMembershipRepository.findByMember(user)).thenReturn(listOf(membership1, membership2))
     }
 
-
-    @Test
-    fun whenGetGroupListWithExistingUser_ThenReturnValidGroupList() {
-        val isGroupList = groupService.getGroupList(userId)
-        Assertions.assertThat(isGroupList).isNotEmpty.isEqualTo(shouldGroupList)
+    @BeforeEach
+    fun init(){
+        exception = null
     }
 
 
     @Test
-    fun whenGetGroupListWithNonExistingUser_ThenReturnEmptyGroupList(){
-        val isGroupList = groupService.getGroupList(2)
-        Assertions.assertThat(isGroupList).isEmpty()
+    fun whenGetGroupListWithExistingUserId_ThenReturnValidGroupList() {
+        val isGroupList = doGroupListByUserId(userId)
+        Assertions.assertThat(isGroupList).isEqualTo(expectedGroupList)
+    }
+
+
+    @Test
+    fun whenGetGroupListWithNonExistingUserId_ThenThrowUserNotFoundException(){
+        val isGroupList = doGroupListByUserId(2)
+        Assertions.assertThat(isGroupList).isNull()
+        Assertions.assertThat(this.exception).isExactlyInstanceOf(UserNotFoundException::class.java)
+    }
+
+    private fun doGroupListByUserId(userId: Long): List<Group>? {
+        var groupList: List<Group>? = null
+        try {
+            groupList = groupService.getGroupListByUserId(userId)
+        } catch (exception: Exception){
+            this.exception = exception
+        }
+        return groupList
     }
 
 }

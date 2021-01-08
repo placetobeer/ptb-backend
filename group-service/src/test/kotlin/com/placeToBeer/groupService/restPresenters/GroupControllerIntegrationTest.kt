@@ -35,7 +35,7 @@ private var objectMapper: ObjectMapper) {
         val userId = 1L
         val groupList: MutableList<Group> = mutableListOf(Group(1, "ClubCrew"), Group(2, "Hüttengaudis"), Group(3, "Corga"))
 
-        whenever(mockGroupService.getGroupList(userId)).thenReturn(groupList)
+        whenever(mockGroupService.getGroupListByUserId(userId)).thenReturn(groupList)
 
         mockMvc.perform(MockMvcRequestBuilders.get("/groups")
                 .param("userId", "$userId"))

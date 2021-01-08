@@ -2,9 +2,8 @@ package com.placeToBeer.groupService.services
 
 import com.placeToBeer.groupService.entities.Group
 import com.placeToBeer.groupService.entities.Membership
-import com.placeToBeer.groupService.entities.Role
 import com.placeToBeer.groupService.entities.User
-import com.placeToBeer.groupService.gateways.GroupRepository
+import com.placeToBeer.groupService.exceptions.UserNotFoundException
 import com.placeToBeer.groupService.gateways.MembershipRepository
 import com.placeToBeer.groupService.gateways.UserRepository
 import org.slf4j.Logger
@@ -16,18 +15,28 @@ class GroupService (private var membershipRepository: MembershipRepository, priv
 
     private var logger: Logger = LoggerFactory.getLogger(GroupService::class.java)
 
-    fun getGroupList(userId: Long): List<Group>{
-        val groupList = mutableListOf<Group>()
+    fun getGroupListByUserId(userId: Long): List<Group>{
         val user = userRepository.findById(userId)
         if(user.isEmpty){
-            logger.error("No user with userId $userId found")
-            return emptyList()
+            throwUserNotFoundError(userId)
         }
-        val memberships: List<Membership> = membershipRepository.findByMember(user.get())
-        for(membership in memberships){
+        return getGroupListByUser(user.get())
+    }
+
+    private fun getGroupListByUser(user: User): List<Group> {
+        val groupList: MutableList<Group> = mutableListOf()
+        for(membership in getMembershipsByUser(user)){
             groupList.add(membership.group)
         }
-
         return groupList
+    }
+
+    private fun getMembershipsByUser(user: User): List<Membership> {
+        return membershipRepository.findByMember(user)
+    }
+
+    private fun throwUserNotFoundError(userId: Long) {
+        logger.error("No user with userId $userId found")
+        throw UserNotFoundException(userId)
     }
 }
