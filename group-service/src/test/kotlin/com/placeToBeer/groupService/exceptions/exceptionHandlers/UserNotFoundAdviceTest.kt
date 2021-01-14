@@ -20,6 +20,6 @@ internal class UserNotFoundAdviceTest {
         headers.add("Content-Type", "application/json; charset=utf-8")
         val exceptionMessageJson = ObjectMapper().writeValueAsString(exception.message)
         val responseEntity = ResponseEntity(exceptionMessageJson, headers, HttpStatus.NOT_FOUND)
-        Assertions.assertThat(userNotFoundAdvice.employeeNotFoundHandler(exception)).isEqualTo(responseEntity)
+        Assertions.assertThat(userNotFoundAdvice.userNotFoundHandler(exception)).isEqualTo(responseEntity)
     }
 }
