@@ -5,6 +5,9 @@ import com.placeToBeer.groupService.exceptions.UserNotFoundException
 import org.assertj.core.api.Assertions
 
 import org.junit.jupiter.api.Test
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 
 internal class UserNotFoundAdviceTest {
 
@@ -13,7 +16,10 @@ internal class UserNotFoundAdviceTest {
     @Test
     fun whenEmployeeNotFoundHandlerIsInvokedWithException_ThenReturnMessageStringAsJson() {
         val exception = UserNotFoundException(1)
-        val expectedJson = ObjectMapper().writeValueAsString(exception.message)
-        Assertions.assertThat(userNotFoundAdvice.employeeNotFoundHandler(exception)).isEqualTo(expectedJson)
+        val headers = HttpHeaders()
+        headers.add("Content-Type", "application/json; charset=utf-8")
+        val exceptionMessageJson = ObjectMapper().writeValueAsString(exception.message)
+        val responseEntity = ResponseEntity(exceptionMessageJson, headers, HttpStatus.NOT_FOUND)
+        Assertions.assertThat(userNotFoundAdvice.employeeNotFoundHandler(exception)).isEqualTo(responseEntity)
     }
 }
