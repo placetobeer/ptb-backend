@@ -13,7 +13,7 @@ class UserNotFoundAdvice {
 
     @ResponseBody
     @ExceptionHandler(UserNotFoundException::class)
-    fun employeeNotFoundHandler(userNotFoundException: UserNotFoundException): ResponseEntity<String> {
+    fun userNotFoundHandler(userNotFoundException: UserNotFoundException): ResponseEntity<String> {
         val headers = HttpHeaders()
         headers.add("Content-Type", "application/json; charset=utf-8")
         return ResponseEntity(ObjectMapper().writeValueAsString(userNotFoundException.message), headers, HttpStatus.NOT_FOUND)
