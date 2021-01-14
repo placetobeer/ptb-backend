@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull
 import javax.persistence.*
 
 @Entity
-@Table(name = "friend_group") //schema = "groups"
+@Table(name = "friend_group")
 data class Group(
         @Id
         @NotNull
@@ -21,15 +21,8 @@ data class Group(
                 value = "Name of the group",
                 example = "Bratis Kartoffeln",
                 required = true)
-        var name: String)
-/*
-        @OneToMany()
-        @ApiModelProperty(
-                value = "List of all memberships associated to this group",
-                dataType = "List")
-        var memberships: MutableList<Membership>)
-*/  {
-    constructor():this(0,""/*mutableListOf(Membership())*/) {
-    }
+        var name: String) {
+
+    constructor() : this(0, "")
 
 }
