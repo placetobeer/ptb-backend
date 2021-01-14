@@ -7,10 +7,14 @@ import com.placeToBeer.groupService.entities.Membership
 import com.placeToBeer.groupService.entities.Role
 import com.placeToBeer.groupService.entities.User
 import com.placeToBeer.groupService.entities.responses.UserMembership
+import com.placeToBeer.groupService.exceptions.GroupNotFoundException
+import com.placeToBeer.groupService.exceptions.UserNotFoundException
 import com.placeToBeer.groupService.gateways.GroupRepository
 import com.placeToBeer.groupService.gateways.MembershipRepository
 import org.assertj.core.api.Assertions
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.lang.Exception
 import java.util.*
 
 internal class MembershipServiceTest {
@@ -22,6 +26,8 @@ internal class MembershipServiceTest {
 
     private val groupId = 1L
     private val shouldUserMemberships: MutableList<UserMembership> = mutableListOf()
+
+    private var exception: Exception? = null
 
     init {
         val group = Group(groupId, "Bratis Kartoffeln")
@@ -40,15 +46,31 @@ internal class MembershipServiceTest {
         whenever(membershipRepository.findByGroup(group)).thenReturn(memberships)
     }
 
+    @BeforeEach
+    fun init(){
+        exception = null
+    }
+
     @Test
     fun whenGetMembershipListWithExistingGroup_ThenReturnValidList() {
-        val isUserMemberships = membershipService.getMembershipList(groupId)
+        val isUserMemberships = doUserMembershipListByUserId(groupId)
         Assertions.assertThat(isUserMemberships).isNotEmpty.isEqualTo(shouldUserMemberships)
     }
 
     @Test
-    fun whenGetMembershipListWithNonExistingGroup_ThenReturnEmptyList() {
-        val isUserMemberships = membershipService.getMembershipList(2)
-        Assertions.assertThat(isUserMemberships).isEmpty()
+    fun whenGetMembershipListWithNonExistingGroup_ThenThrowException() {
+        val isUserMemberships = doUserMembershipListByUserId(2)
+        Assertions.assertThat(isUserMemberships).isNull()
+        Assertions.assertThat(this.exception).isExactlyInstanceOf(GroupNotFoundException::class.java)
+    }
+
+    private fun doUserMembershipListByUserId(groupId: Long): List<UserMembership>? {
+        var userMembershipList: List<UserMembership>? = null
+        try {
+            userMembershipList = membershipService.getUserMembershipListByGroupId(groupId)
+        } catch (exception: Exception){
+            this.exception = exception
+        }
+        return userMembershipList
     }
 }

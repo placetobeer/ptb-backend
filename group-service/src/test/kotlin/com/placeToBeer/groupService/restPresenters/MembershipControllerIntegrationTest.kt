@@ -5,6 +5,7 @@ import com.nhaarman.mockitokotlin2.whenever
 import com.placeToBeer.groupService.entities.Role
 import com.placeToBeer.groupService.entities.User
 import com.placeToBeer.groupService.entities.responses.UserMembership
+import com.placeToBeer.groupService.exceptions.GroupNotFoundException
 import com.placeToBeer.groupService.services.MembershipService
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,31 +22,42 @@ private var objectMapper: ObjectMapper) {
     @MockBean
     private lateinit var mockMembershipService: MembershipService
 
-    private val groupId = 1L
+    private val validGroupId = 1L
+    private val invalidGroupId = 2L
     private val userMemberships = listOf(
             UserMembership(User(1, "Bea"), Role.OWNER),
             UserMembership(User(2, "Patrick"), Role.ADMIN),
             UserMembership(User(3, "Lucie"), Role.MEMBER))
 
     @Test
-    fun whenValidInput_thenReturns200() {
+    fun whenGetUserMembershipListByGroupId_withValidGroupId_thenReturnHttp200() {
         mockMvc.perform(MockMvcRequestBuilders.get("/memberships")
-                .param("groupId", "$groupId"))
+                .param("groupId", "$validGroupId"))
 
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
     }
 
     @Test
-    fun whenValidInput_thenReturnValidAnswer() {
-        whenever(mockMembershipService.getMembershipList(groupId)).thenReturn(userMemberships)
+    fun whenGetUserMembershipListByGroupId_withValidGroupId_thenReturnValidAnswer() {
+        whenever(mockMembershipService.getUserMembershipListByGroupId(validGroupId)).thenReturn(userMemberships)
 
         mockMvc.perform(MockMvcRequestBuilders.get("/memberships")
-                .param("groupId", "$groupId"))
+                .param("groupId", "$validGroupId"))
 
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
                 .andExpect(MockMvcResultMatchers.content().string(objectMapper.writeValueAsString(userMemberships)))
     }
 
+    @Test
+    fun whenGetUserMembershipListByGroupId_withInvalidGroupId_thenReturnHttp404() {
+        whenever(mockMembershipService.getUserMembershipListByGroupId(invalidGroupId)).thenThrow(GroupNotFoundException::class.java)
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/memberships")
+                .param("groupId", "$invalidGroupId"))
+
+                .andExpect(MockMvcResultMatchers.status().isNotFound)
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
+    }
 }

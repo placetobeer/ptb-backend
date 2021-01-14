@@ -21,7 +21,7 @@ internal class MembershipControllerTest {
             UserMembership(User(3, "Lucie"), Role.MEMBER))
 
     init {
-        whenever(membershipService.getMembershipList(groupId)).thenReturn(shouldUserMemberships)
+        whenever(membershipService.getUserMembershipListByGroupId(groupId)).thenReturn(shouldUserMemberships)
     }
 
     @Test
