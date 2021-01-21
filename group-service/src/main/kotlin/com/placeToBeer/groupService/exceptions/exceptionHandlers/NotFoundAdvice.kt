@@ -1,6 +1,7 @@
 package com.placeToBeer.groupService.exceptions.exceptionHandlers
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.placeToBeer.groupService.exceptions.AbstractNotFoundException
 import com.placeToBeer.groupService.exceptions.GroupNotFoundException
 import com.placeToBeer.groupService.exceptions.UserNotFoundException
 import org.springframework.http.HttpHeaders
@@ -10,13 +11,13 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestControllerAdvice
-class GroupNotFoundAdvice {
+class NotFoundAdvice {
 
     @ResponseBody
-    @ExceptionHandler(GroupNotFoundException::class)
-    fun groupNotFoundHandler(groupNotFoundException: GroupNotFoundException): ResponseEntity<String> {
+    @ExceptionHandler(AbstractNotFoundException::class)
+    fun groupNotFoundHandler(abstractNotFoundException: AbstractNotFoundException): ResponseEntity<String> {
         val headers = HttpHeaders()
         headers.add("Content-Type", "application/json; charset=utf-8")
-        return ResponseEntity(ObjectMapper().writeValueAsString(groupNotFoundException.message), headers, HttpStatus.NOT_FOUND)
+        return ResponseEntity(ObjectMapper().writeValueAsString(abstractNotFoundException.message), headers, HttpStatus.NOT_FOUND)
     }
 }
