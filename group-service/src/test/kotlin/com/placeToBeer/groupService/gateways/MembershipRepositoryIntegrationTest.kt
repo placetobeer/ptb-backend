@@ -9,12 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 
 @DataJpaTest
-open class MembershipRepositoryIntegrationTest(
-    @Autowired val membershipRepository: MembershipRepository
-
-
-    ) {
-
+open class MembershipRepositoryIntegrationTest(@Autowired val membershipRepository: MembershipRepository) {
 
     @Test
     fun `whenUserInput_ThenReturnMembershipList` () {

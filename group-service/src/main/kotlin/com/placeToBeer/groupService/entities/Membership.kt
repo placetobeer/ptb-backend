@@ -4,22 +4,27 @@ package com.placeToBeer.groupService.entities
 import org.jetbrains.annotations.NotNull
 import javax.persistence.*
 
-
 @Entity
-@Table(name = "membership") //schema = "memberships"
 data class Membership(
-        @Id
         @NotNull
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val membershipID: Long,
-        @NotNull
-        @ManyToOne()
+        @ManyToOne(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY)
+        @JoinColumn(name = "GROUP_ID", insertable = false, updatable = false)
         var group: Group,
         @NotNull
-        @ManyToOne()
+        @ManyToOne(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY)
+        @JoinColumn(name = "MEMBER_ID", insertable = false, updatable = false)
         var member : User,
         @NotNull
         var role : Role) {
-        constructor(): this(0, Group(), User(), Role.MEMBER) {
+
+        @Id
+        @Column(name="MEMBERSHIP_ID")
+        @NotNull
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        var id: Long? = null
+
+        constructor(): this(Group(), User(), Role.MEMBER) {}
+        constructor(id: Long, group: Group, member: User, role: Role): this(group, member, role){
+                this.id = id
         }
 }
