@@ -45,8 +45,8 @@ class GroupService (private var membershipRepository: MembershipRepository, priv
     }
 
     fun createGroup(userId: Long, groupName: String): Group {
-        val newGroup = Group(groupName)
-        groupRepository.save(newGroup)
+        var newGroup = Group(groupName)
+        newGroup = groupRepository.save(newGroup)
         this.createOwnership(userId, newGroup)
         return newGroup
     }
