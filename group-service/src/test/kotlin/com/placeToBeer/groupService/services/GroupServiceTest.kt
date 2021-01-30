@@ -6,6 +6,7 @@ import com.placeToBeer.groupService.entities.Group
 import com.placeToBeer.groupService.entities.Membership
 import com.placeToBeer.groupService.entities.User
 import com.placeToBeer.groupService.exceptions.UserNotFoundException
+import com.placeToBeer.groupService.gateways.GroupRepository
 import com.placeToBeer.groupService.gateways.MembershipRepository
 import com.placeToBeer.groupService.gateways.UserRepository
 import org.assertj.core.api.Assertions
@@ -18,8 +19,9 @@ internal class GroupServiceTest {
 
     private val mockMembershipRepository: MembershipRepository = mock()
     private val mockUserRepository: UserRepository = mock()
+    private val mockGroupRepository: GroupRepository = mock()
 
-    private val groupService = GroupService(mockMembershipRepository, mockUserRepository)
+    private val groupService = GroupService(mockMembershipRepository, mockUserRepository, mockGroupRepository)
 
     private val userId = 1L
     private var expectedGroupList: List<Group> = emptyList()

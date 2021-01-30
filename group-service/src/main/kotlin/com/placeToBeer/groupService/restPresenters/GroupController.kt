@@ -16,4 +16,11 @@ class GroupController (private val groupService: GroupService){
     fun getGroupListByUserId(@RequestParam userId: Long): List<Group> {
         return groupService.getGroupListByUserId(userId)
     }
+
+    @ApiOperation(value = "Create group and get groupId of created group")
+    @PostMapping(value = [""], params = ["userId", "groupName"], produces = ["application/json;charset=UTF-8"])
+    fun createGroup(@RequestParam userId: Long, @RequestParam groupName: String): Group {
+        return groupService.createGroup(userId, groupName)
+    }
+
 }

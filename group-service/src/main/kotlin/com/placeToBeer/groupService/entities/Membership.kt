@@ -7,12 +7,12 @@ import javax.persistence.*
 @Entity
 data class Membership(
         @NotNull
-        @ManyToOne(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY)
-        @JoinColumn(name = "GROUP_ID", insertable = false, updatable = false)
+        @ManyToOne(cascade = [(CascadeType.MERGE)])
+        @JoinColumn(name = "GROUP_ID")
         var group: Group,
         @NotNull
-        @ManyToOne(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY)
-        @JoinColumn(name = "MEMBER_ID", insertable = false, updatable = false)
+        @ManyToOne(cascade = [(CascadeType.MERGE)])
+        @JoinColumn(name = "MEMBER_ID")
         var member : User,
         @NotNull
         var role : Role) {
