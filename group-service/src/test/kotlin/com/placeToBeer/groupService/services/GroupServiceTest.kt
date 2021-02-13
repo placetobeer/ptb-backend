@@ -1,10 +1,13 @@
 package com.placeToBeer.groupService.services
 
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import com.placeToBeer.groupService.entities.Group
 import com.placeToBeer.groupService.entities.Membership
+import com.placeToBeer.groupService.entities.Role
 import com.placeToBeer.groupService.entities.User
+import com.placeToBeer.groupService.exceptions.GroupNotFoundException
 import com.placeToBeer.groupService.exceptions.UserNotFoundException
 import com.placeToBeer.groupService.gateways.GroupRepository
 import com.placeToBeer.groupService.gateways.MembershipRepository
@@ -12,8 +15,16 @@ import com.placeToBeer.groupService.gateways.UserRepository
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.AdditionalAnswers
 import java.lang.Exception
 import java.util.*
+import org.mockito.AdditionalAnswers.returnsFirstArg
+import org.mockito.Mockito
+
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.any
+import java.lang.reflect.Member
+
 
 internal class GroupServiceTest {
 
@@ -25,6 +36,7 @@ internal class GroupServiceTest {
 
     private val userId = 1L
     private var expectedGroupList: List<Group> = emptyList()
+    private var expectedNewGroup: Group? = null
 
     private var exception: Exception? = null
 
@@ -45,6 +57,8 @@ internal class GroupServiceTest {
 
         whenever(mockUserRepository.findById(userId)).thenReturn(Optional.of(user))
         whenever(mockMembershipRepository.findByMember(user)).thenReturn(listOf(membership1, membership2))
+
+        expectedNewGroup = Group(userId, "Testgruppe")
     }
 
     @BeforeEach
@@ -75,6 +89,29 @@ internal class GroupServiceTest {
             this.exception = exception
         }
         return groupList
+    }
+
+    @Test
+    fun whenCreateGroupWithExistingUserId_ThenReturnNewGroup(){
+        val isNewGroup = doCreateGroup(userId)
+        Assertions.assertThat(isNewGroup).isEqualTo(expectedNewGroup)
+    }
+
+    @Test
+    fun whenCreateGroupWithNonExistingUserId_ThenThrowGroupNotFoundException(){
+        val isNewGroup = doCreateGroup(2)
+        Assertions.assertThat(isNewGroup).isNull()
+        Assertions.assertThat(this.exception).isExactlyInstanceOf(UserNotFoundException::class.java)
+    }
+
+    private fun doCreateGroup(userId: Long): Group? {
+        var newGroup: Group? = null
+        try {
+            newGroup = groupService.createGroup(userId, "Testgruppe")
+        } catch (exception: Exception){
+            this.exception = exception
+        }
+        return newGroup
     }
 
 }
