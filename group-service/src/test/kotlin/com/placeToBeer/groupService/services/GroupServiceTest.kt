@@ -1,8 +1,6 @@
 package com.placeToBeer.groupService.services
 
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.*
 import com.placeToBeer.groupService.entities.Group
 import com.placeToBeer.groupService.entities.Membership
 import com.placeToBeer.groupService.entities.Role
@@ -19,11 +17,13 @@ import org.mockito.AdditionalAnswers
 import java.lang.Exception
 import java.util.*
 import org.mockito.AdditionalAnswers.returnsFirstArg
+import org.mockito.ArgumentCaptor
 import org.mockito.Mockito
 
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.any
 import java.lang.reflect.Member
+import kotlin.test.assertNull
 
 
 internal class GroupServiceTest {
@@ -98,7 +98,7 @@ internal class GroupServiceTest {
     }
 
     @Test
-    fun whenCreateGroupWithNonExistingUserId_ThenThrowGroupNotFoundException(){
+    fun whenCreateGroupWithNonExistingUserId_ThenThrowUserNotFoundException(){
         val isNewGroup = doCreateGroup(2)
         Assertions.assertThat(isNewGroup).isNull()
         Assertions.assertThat(this.exception).isExactlyInstanceOf(UserNotFoundException::class.java)
@@ -112,6 +112,37 @@ internal class GroupServiceTest {
             this.exception = exception
         }
         return newGroup
+    }
+
+    @Test
+    fun whenCreateOwnershipWithExistingGroup_ThenSaveOwnership(){
+        val user = User(userId, "")
+        val group = Group("Test Group")
+        val expectedOwnership = Membership(group, user, Role.OWNER)
+
+        doCreateOwnership(userId, group)
+
+        verify(mockMembershipRepository).save(argThat {
+            this == expectedOwnership
+        })
+    }
+
+    @Test
+    fun whenCreateOwnershipWithNonExistingGroup_ThenThrowGroupNotFoundException(){
+        val group = Group("Not existing")
+        whenever(groupService.createOwnership(userId, group)).thenThrow(GroupNotFoundException::class.java)
+
+        doCreateOwnership(userId, group)
+
+        Assertions.assertThat(this.exception).isExactlyInstanceOf(GroupNotFoundException::class.java)
+    }
+
+    private fun doCreateOwnership(userId: Long, group: Group) {
+        try {
+            groupService.createOwnership(userId, group)
+        } catch (exception: Exception){
+            this.exception = exception
+        }
     }
 
 }

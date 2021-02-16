@@ -47,7 +47,7 @@ class GroupService (private var membershipRepository: MembershipRepository, priv
         return newGroup
     }
 
-    private fun createOwnership(userId: Long, group: Group){
+    fun createOwnership(userId: Long, group: Group){
         checkIfGroupIsEmpty(group)
         val ownership = Membership(group, userRepository.findById(userId).get(), Role.OWNER)
         membershipRepository.save(ownership)
