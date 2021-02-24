@@ -12,7 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 open class MembershipRepositoryIntegrationTest(@Autowired val membershipRepository: MembershipRepository) {
 
     @Test
-    fun `whenUserInput_ThenReturnMembershipList` () {
+    fun whenUserInput_ThenReturnMembershipList () {
         val user1 = User(5,"Lucie")
         val group1 = Group(1, "Bratis Kartoffeln")
         val group2 = Group(2, "Hüttengaudis")
@@ -25,8 +25,9 @@ open class MembershipRepositoryIntegrationTest(@Autowired val membershipReposito
         Assertions.assertThat(isMemberships).isEqualTo(shouldMemberships)
     }
 
+
     @Test
-    fun `whenGroupInput_ThenReturnMembershipList`(){
+    fun whenGroupInput_ThenReturnMembershipList(){
         val group1 = Group(1, "Bratis Kartoffeln")
         val membership1 = Membership(1, group1, User(1,"Bea"), Role.OWNER)
         val membership2 = Membership(2, group1, User(2,"Jonas"),Role.ADMIN)
