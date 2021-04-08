@@ -13,8 +13,17 @@ import com.placeToBeer.groupService.gateways.UserRepository
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.AdditionalAnswers
 import java.lang.Exception
 import java.util.*
+import org.mockito.AdditionalAnswers.returnsFirstArg
+import org.mockito.ArgumentCaptor
+import org.mockito.Mockito
+
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.any
+import java.lang.reflect.Member
+import kotlin.test.assertNull
 
 
 internal class GroupServiceTest {
@@ -26,6 +35,7 @@ internal class GroupServiceTest {
     private val groupService = GroupService(mockMembershipRepository, mockUserRepository, mockGroupRepository)
 
     private val userId = 1L
+    private val wrongUserId = 2L
     private val user = User()
     private var expectedGroupList: List<Group> = emptyList()
     private var expectedNewGroup: Group? = null
@@ -67,7 +77,7 @@ internal class GroupServiceTest {
 
     @Test
     fun whenGetGroupListWithNonExistingUserId_ThenThrowUserNotFoundException(){
-        val isGroupList = doGroupListByUserId(2)
+        val isGroupList = doGroupListByUserId(wrongUserId)
         Assertions.assertThat(isGroupList).isNull()
         Assertions.assertThat(this.exception).isExactlyInstanceOf(UserNotFoundException::class.java)
     }
@@ -90,7 +100,7 @@ internal class GroupServiceTest {
 
     @Test
     fun whenCreateGroupWithNonExistingUserId_ThenThrowUserNotFoundException(){
-        val isNewGroup = doCreateGroup(2)
+        val isNewGroup = doCreateGroup(wrongUserId)
         Assertions.assertThat(isNewGroup).isNull()
         Assertions.assertThat(this.exception).isExactlyInstanceOf(UserNotFoundException::class.java)
     }
