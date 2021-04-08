@@ -1,9 +1,11 @@
 package com.placeToBeer.groupService.restPresenters
 
+import com.fasterxml.jackson.databind.node.TextNode
 import com.placeToBeer.groupService.entities.Group
 import com.placeToBeer.groupService.services.GroupService
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import org.springframework.boot.json.JacksonJsonParser
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -21,6 +23,12 @@ class GroupController (private val groupService: GroupService){
     @PostMapping(value = [""], params = ["userId", "groupName"], produces = ["application/json;charset=UTF-8"])
     fun createGroup(@RequestParam userId: Long, @RequestParam groupName: String): Group {
         return groupService.createGroup(userId, groupName)
+    }
+
+    @ApiOperation(value = "Set group name")
+    @PutMapping(value = ["/{groupId}/name"], produces = ["application/json;charset=UTF-8"])
+    fun setGroupName(@RequestBody groupName: TextNode, @PathVariable groupId: Long){
+        groupService.setGroupNameByGroupId(groupId, groupName.asText())
     }
 
 }

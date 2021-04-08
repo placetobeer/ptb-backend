@@ -4,6 +4,7 @@ import com.placeToBeer.groupService.entities.Group
 import com.placeToBeer.groupService.entities.Membership
 import com.placeToBeer.groupService.entities.Role
 import com.placeToBeer.groupService.entities.User
+import com.placeToBeer.groupService.exceptions.GroupNameIsInvalidException
 import com.placeToBeer.groupService.exceptions.GroupNotFoundException
 import com.placeToBeer.groupService.exceptions.UserNotFoundException
 import com.placeToBeer.groupService.gateways.GroupRepository
@@ -11,10 +12,7 @@ import com.placeToBeer.groupService.gateways.MembershipRepository
 import com.placeToBeer.groupService.gateways.UserRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.data.jpa.domain.AbstractPersistable_.id
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class GroupService (private var membershipRepository: MembershipRepository, private var userRepository: UserRepository,
@@ -23,8 +21,30 @@ class GroupService (private var membershipRepository: MembershipRepository, priv
     private var logger: Logger = LoggerFactory.getLogger(GroupService::class.java)
 
     fun getGroupListByUserId(userId: Long): List<Group>{
-        checkIfUserIsEmpty(userId)
-        return getGroupListByUser(userRepository.findById(userId).get())
+        val user = getUserByUserId(userId)
+        return getGroupListByUser(user)
+    }
+
+    fun createGroup(userId: Long, groupName: String): Group {
+        checkIfGroupNameIsValid(groupName)
+        val newGroup = Group(groupName)
+        groupRepository.save(newGroup)
+        val user = getUserByUserId(userId)
+        createOwnership(user, newGroup)
+        return newGroup
+    }
+
+    fun setGroupNameByGroupId(groupId: Long, groupName: String) {
+        checkIfGroupNameIsValid(groupName)
+        val group = getGroupByGroupId(groupId)
+        group.name = groupName
+        groupRepository.save(group)
+    }
+
+    private fun checkIfGroupNameIsValid(groupName: String) {
+        if(groupName.isNullOrEmpty()){
+            throwGroupNameIsInvalidError(groupName)
+        }
     }
 
     private fun getGroupListByUser(user: User): List<Group> {
@@ -39,31 +59,25 @@ class GroupService (private var membershipRepository: MembershipRepository, priv
         return membershipRepository.findByMember(user)
     }
 
-    fun createGroup(userId: Long, groupName: String): Group {
-        var newGroup = Group(groupName)
-        groupRepository.save(newGroup)
-        checkIfUserIsEmpty(userId)
-        this.createOwnership(userId, newGroup)
-        return newGroup
-    }
-
-    fun createOwnership(userId: Long, group: Group){
-        checkIfGroupIsEmpty(group)
-        val ownership = Membership(group, userRepository.findById(userId).get(), Role.OWNER)
+    fun createOwnership(user: User, group: Group){
+        val ownership = Membership(group, user, Role.OWNER)
         membershipRepository.save(ownership)
     }
 
-    private fun checkIfUserIsEmpty(userId: Long){
+    private fun getUserByUserId(userId: Long): User{
         val user = userRepository.findById(userId)
         if(user.isEmpty){
             throwUserNotFoundError(userId)
         }
+        return user.get()
     }
 
-    private fun checkIfGroupIsEmpty(group: Group){
-        if(Optional.of(group).isEmpty){
-            throwGroupNotFoundError(group.id!!)
+    private fun getGroupByGroupId(groupId: Long): Group {
+        val possibleGroup = groupRepository.findById(groupId)
+        if(possibleGroup.isEmpty){
+            throwGroupNotFoundError(groupId)
         }
+        return possibleGroup.get()
     }
 
     private fun throwUserNotFoundError(userId: Long) {
@@ -74,6 +88,11 @@ class GroupService (private var membershipRepository: MembershipRepository, priv
     private fun throwGroupNotFoundError(groupId: Long) {
         logger.error("No group with groupId $groupId found")
         throw GroupNotFoundException(groupId)
+    }
+
+    private fun throwGroupNameIsInvalidError(groupName: String) {
+        logger.error("Group name $groupName is invalid")
+        throw GroupNameIsInvalidException(groupName)
     }
 
 }
