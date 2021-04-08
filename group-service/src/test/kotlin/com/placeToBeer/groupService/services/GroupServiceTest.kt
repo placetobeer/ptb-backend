@@ -13,17 +13,8 @@ import com.placeToBeer.groupService.gateways.UserRepository
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.AdditionalAnswers
 import java.lang.Exception
 import java.util.*
-import org.mockito.AdditionalAnswers.returnsFirstArg
-import org.mockito.ArgumentCaptor
-import org.mockito.Mockito
-
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.any
-import java.lang.reflect.Member
-import kotlin.test.assertNull
 
 
 internal class GroupServiceTest {
@@ -35,14 +26,14 @@ internal class GroupServiceTest {
     private val groupService = GroupService(mockMembershipRepository, mockUserRepository, mockGroupRepository)
 
     private val userId = 1L
+    private val user = User()
     private var expectedGroupList: List<Group> = emptyList()
     private var expectedNewGroup: Group? = null
 
     private var exception: Exception? = null
 
     init {
-        val user = User()
-        user.id = userId
+        this.user.id = userId
 
         val group1 = Group()
         val group2 = Group()
@@ -130,7 +121,7 @@ internal class GroupServiceTest {
     @Test
     fun whenCreateOwnershipWithNonExistingGroup_ThenThrowGroupNotFoundException(){
         val group = Group("Not existing")
-        whenever(groupService.createOwnership(userId, group)).thenThrow(GroupNotFoundException::class.java)
+        whenever(groupService.createOwnership(this.user, group)).thenThrow(GroupNotFoundException::class.java)
 
         doCreateOwnership(userId, group)
 
@@ -139,7 +130,7 @@ internal class GroupServiceTest {
 
     private fun doCreateOwnership(userId: Long, group: Group) {
         try {
-            groupService.createOwnership(userId, group)
+            groupService.createOwnership(this.user, group)
         } catch (exception: Exception){
             this.exception = exception
         }
