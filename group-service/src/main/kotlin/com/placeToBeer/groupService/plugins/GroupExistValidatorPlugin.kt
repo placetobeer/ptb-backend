@@ -13,7 +13,7 @@ import java.util.*
 @Component
 class GroupExistValidatorPlugin {
 
-    private var logger: Logger = LoggerFactory.getLogger(GroupService::class.java)
+    private var logger: Logger = LoggerFactory.getLogger(GroupExistValidatorPlugin::class.java)
 
     fun validateAndReturn(group: Optional<Group>, groupId: Long): Group {
         if(group.isEmpty){

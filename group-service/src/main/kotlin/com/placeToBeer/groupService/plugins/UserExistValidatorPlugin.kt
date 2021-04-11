@@ -13,7 +13,7 @@ import java.util.*
 @Component
 class UserExistValidatorPlugin {
 
-    private var logger: Logger = LoggerFactory.getLogger(GroupService::class.java)
+    private var logger: Logger = LoggerFactory.getLogger(UserExistValidatorPlugin::class.java)
 
     fun validateAndReturn(user: Optional<User>, userId: Long): User {
         if(user.isEmpty){

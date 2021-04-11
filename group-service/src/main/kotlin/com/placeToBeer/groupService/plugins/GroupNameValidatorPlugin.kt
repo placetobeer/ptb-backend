@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 @Component
 class GroupNameValidatorPlugin {
 
-    private var logger: Logger = LoggerFactory.getLogger(GroupService::class.java)
+    private var logger: Logger = LoggerFactory.getLogger(GroupNameValidatorPlugin::class.java)
 
     fun validate(groupName: String) {
         if(groupName.isNullOrEmpty()){
