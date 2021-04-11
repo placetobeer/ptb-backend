@@ -6,7 +6,7 @@ import com.placeToBeer.groupService.entities.User
 import io.swagger.annotations.ApiModelProperty
 import org.jetbrains.annotations.NotNull
 
-data class UserMembership(
+data class UsersMembership(
         @NotNull
         @ApiModelProperty(
                 value = "User",

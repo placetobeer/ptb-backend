@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.nhaarman.mockitokotlin2.whenever
 import com.placeToBeer.groupService.entities.Role
 import com.placeToBeer.groupService.entities.User
-import com.placeToBeer.groupService.entities.responses.UserMembership
+import com.placeToBeer.groupService.entities.responses.UsersMembership
 import com.placeToBeer.groupService.exceptions.GroupNotFoundException
 import com.placeToBeer.groupService.services.MembershipService
 import org.junit.jupiter.api.Test
@@ -25,9 +25,9 @@ private var objectMapper: ObjectMapper) {
     private val validGroupId = 1L
     private val invalidGroupId = 2L
     private val userMemberships = listOf(
-            UserMembership(User(1, "Bea"), Role.OWNER),
-            UserMembership(User(2, "Patrick"), Role.ADMIN),
-            UserMembership(User(3, "Lucie"), Role.MEMBER))
+            UsersMembership(User(1, "Bea"), Role.OWNER),
+            UsersMembership(User(2, "Patrick"), Role.ADMIN),
+            UsersMembership(User(3, "Lucie"), Role.MEMBER))
 
     @Test
     fun whenGetUserMembershipListByGroupId_withValidGroupId_thenReturnHttp200() {
