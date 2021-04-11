@@ -1,4 +1,4 @@
-package com.placeToBeer.groupService.interactors
+package com.placeToBeer.groupService.interactors.group
 
 import com.placeToBeer.groupService.entities.Group
 import com.placeToBeer.groupService.gateways.GroupRepository
