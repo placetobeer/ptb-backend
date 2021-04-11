@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.nhaarman.mockitokotlin2.whenever
 import com.placeToBeer.groupService.entities.Role
 import com.placeToBeer.groupService.entities.User
-import com.placeToBeer.groupService.entities.responses.UsersMembership
+import com.placeToBeer.groupService.entities.responses.GroupsMembership
 import com.placeToBeer.groupService.exceptions.GroupNotFoundException
 import com.placeToBeer.groupService.services.MembershipService
 import org.junit.jupiter.api.Test
@@ -25,9 +25,9 @@ private var objectMapper: ObjectMapper) {
     private val validGroupId = 1L
     private val invalidGroupId = 2L
     private val userMemberships = listOf(
-            UsersMembership(User(1, "Bea"), Role.OWNER),
-            UsersMembership(User(2, "Patrick"), Role.ADMIN),
-            UsersMembership(User(3, "Lucie"), Role.MEMBER))
+            GroupsMembership(User(1, "Bea"), Role.OWNER),
+            GroupsMembership(User(2, "Patrick"), Role.ADMIN),
+            GroupsMembership(User(3, "Lucie"), Role.MEMBER))
 
     @Test
     fun whenGetUserMembershipListByGroupId_withValidGroupId_thenReturnHttp200() {
@@ -40,7 +40,7 @@ private var objectMapper: ObjectMapper) {
 
     @Test
     fun whenGetUserMembershipListByGroupId_withValidGroupId_thenReturnValidAnswer() {
-        whenever(mockMembershipService.getUserMembershipListByGroupId(validGroupId)).thenReturn(userMemberships)
+        whenever(mockMembershipService.getGroupsMembershipListByGroupId(validGroupId)).thenReturn(userMemberships)
 
         mockMvc.perform(MockMvcRequestBuilders.get("/memberships")
                 .param("groupId", "$validGroupId"))
@@ -52,7 +52,7 @@ private var objectMapper: ObjectMapper) {
 
     @Test
     fun whenGetUserMembershipListByGroupId_withInvalidGroupId_thenReturnHttp404() {
-        whenever(mockMembershipService.getUserMembershipListByGroupId(invalidGroupId)).thenThrow(GroupNotFoundException::class.java)
+        whenever(mockMembershipService.getGroupsMembershipListByGroupId(invalidGroupId)).thenThrow(GroupNotFoundException::class.java)
 
         mockMvc.perform(MockMvcRequestBuilders.get("/memberships")
                 .param("groupId", "$invalidGroupId"))

@@ -2,27 +2,26 @@ package com.placeToBeer.groupService.interactors.membership
 
 import com.placeToBeer.groupService.entities.Group
 import com.placeToBeer.groupService.entities.Membership
-import com.placeToBeer.groupService.entities.responses.UsersMembership
-import com.placeToBeer.groupService.exceptions.GroupNotFoundException
+import com.placeToBeer.groupService.entities.responses.GroupsMembership
 import com.placeToBeer.groupService.gateways.GroupRepository
 import com.placeToBeer.groupService.gateways.MembershipRepository
 import com.placeToBeer.groupService.plugins.GroupExistValidatorPlugin
 import org.springframework.stereotype.Component
 
 @Component
-class GetUsersMembershipListInteractor(private var groupRepository: GroupRepository, private var membershipRepository: MembershipRepository,
-                                       private var groupExistValidatorPlugin: GroupExistValidatorPlugin) {
+class GetGroupsMembershipListInteractor(private var groupRepository: GroupRepository, private var membershipRepository: MembershipRepository,
+                                        private var groupExistValidatorPlugin: GroupExistValidatorPlugin) {
 
-    fun execute(groupId: Long): List<UsersMembership> {
+    fun execute(groupId: Long): List<GroupsMembership> {
         val possibleGroup = groupRepository.findById(groupId)
         val group = groupExistValidatorPlugin.validateAndReturn(possibleGroup, groupId)
-        return getUserMembershipListByGroup(group)
+        return getGroupsMembershipListByGroup(group)
     }
 
-    private fun getUserMembershipListByGroup(group: Group): List<UsersMembership> {
-        val userMemberships = mutableListOf<UsersMembership>()
+    private fun getGroupsMembershipListByGroup(group: Group): List<GroupsMembership> {
+        val userMemberships = mutableListOf<GroupsMembership>()
         for (membership in getMembershipListByGroup(group)) {
-            userMemberships.add(UsersMembership(membership))
+            userMemberships.add(GroupsMembership(membership))
         }
         return userMemberships
     }
