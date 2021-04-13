@@ -1,8 +1,8 @@
 package com.placeToBeer.groupService.services
 
-import com.placeToBeer.groupService.entities.Group
 import com.placeToBeer.groupService.entities.Invitation
-import com.placeToBeer.groupService.entities.InvitationResponse
+import com.placeToBeer.groupService.entities.Role
+import com.placeToBeer.groupService.entities.responses.InvitationResponse
 import com.placeToBeer.groupService.entities.User
 import com.placeToBeer.groupService.exceptions.GroupNotFoundException
 import com.placeToBeer.groupService.exceptions.UserNotFoundException
@@ -32,20 +32,21 @@ class InvitationService(
         val invitationsList: MutableList<InvitationResponse> = mutableListOf()
         for(invitation in invitationRepository.findAll()){
             if(invitation.recipient == user){
-                invitationsList.add(InvitationResponse(invitation.emitter, invitation.group))
+                invitationsList.add(InvitationResponse(invitation))
             }
         }
         return invitationsList
     }
 
-    fun createNewInvitation(receiverId: Long, emitterId: Long, groupId: Long){
+    fun createNewInvitation(receiverId: Long, emitterId: Long, groupId: Long, role: Role){
         checkIfUserIsEmpty(receiverId)
         checkIfUserIsEmpty(emitterId)
         checkIfGroupIsEmpty(groupId)
         val newInvitation = Invitation(
             userRepository.findById(receiverId).get(),
             userRepository.findById(emitterId).get(),
-            groupRepository.findById(groupId).get()
+            groupRepository.findById(groupId).get(),
+            role
         )
         invitationRepository.save(newInvitation)
     }

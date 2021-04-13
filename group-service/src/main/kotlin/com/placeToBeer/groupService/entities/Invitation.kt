@@ -18,25 +18,26 @@ data class Invitation(
     @NotNull
     @ManyToOne(cascade = [(CascadeType.MERGE)])
     @JoinColumn(name = "GROUP_ID")
-    val group: Group){
+    val group: Group,
+
+    @NotNull
+    @JoinColumn(name = "ROLE")
+    val role: Role){
+
 
     @Id
     @Column(name = "INVITATION_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 
-    /*@NotNull
-    @OneToOne(cascade = [(CascadeType.MERGE)])
-    @JoinColumn(name = "INVITATIONRESPONSE_ID")
-    var response: InvitationResponse = InvitationResponse(emitter,group)*/
 
     constructor() : this(
         User(),
         User(),
-        Group(),) {}
-    constructor(id: Long, recipient: User, emitter: User, group: Group
-    ): this(recipient, emitter, group){
+        Group(),
+        Role.MEMBER) {}
+    constructor(id: Long, recipient: User, emitter: User, group: Group, role: Role
+    ): this(recipient, emitter, group, role){
         this.id = id
-//        this.response = InvitationResponse(emitter,group)
     }
 }

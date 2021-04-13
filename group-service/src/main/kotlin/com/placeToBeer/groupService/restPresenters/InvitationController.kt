@@ -1,6 +1,6 @@
 package com.placeToBeer.groupService.restPresenters
 
-import com.placeToBeer.groupService.entities.InvitationResponse
+import com.placeToBeer.groupService.entities.responses.InvitationResponse
 import com.placeToBeer.groupService.services.InvitationService
 import io.swagger.annotations.ApiOperation
 import org.springframework.web.bind.annotation.*
