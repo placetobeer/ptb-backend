@@ -1,6 +1,6 @@
 package com.placeToBeer.groupService.restPresenters
 
-import com.placeToBeer.groupService.entities.responses.UserMembership
+import com.placeToBeer.groupService.entities.responses.GroupsMembership
 import com.placeToBeer.groupService.services.MembershipService
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -16,7 +16,7 @@ class MembershipController(private val membershipService: MembershipService) {
 
     @ApiOperation(value = "View list of memberships without groupdata that refer to a group")
     @GetMapping(value = [""], params = ["groupId"], produces = ["application/json;charset=UTF-8"])
-    fun getMembershipsByGroupId(@RequestParam groupId: Long): List<UserMembership> {
-        return membershipService.getUserMembershipListByGroupId(groupId)
+    fun getMembershipsByGroupId(@RequestParam groupId: Long): List<GroupsMembership> {
+        return membershipService.getGroupsMembershipListByGroupId(groupId)
     }
 }
