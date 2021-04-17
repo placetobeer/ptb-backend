@@ -14,12 +14,12 @@ internal class NotFoundAdviceTest {
     private val groupNotFoundAdvice = NotFoundAdvice()
 
     @Test
-    fun whenEmployeeNotFoundHandlerIsInvokedWithException_ThenReturnMessageStringAsJson() {
+    fun whenEntityNotFoundHandlerIsInvokedWithException_ThenReturnMessageStringAsJson() {
         val exception = GroupNotFoundException(1)
         val headers = HttpHeaders()
         headers.add("Content-Type", "application/json; charset=utf-8")
         val exceptionMessageJson = ObjectMapper().writeValueAsString(exception.message)
         val responseEntity = ResponseEntity(exceptionMessageJson, headers, HttpStatus.NOT_FOUND)
-        Assertions.assertThat(groupNotFoundAdvice.groupNotFoundHandler(exception)).isEqualTo(responseEntity)
+        Assertions.assertThat(groupNotFoundAdvice.entityNotFoundHandler(exception)).isEqualTo(responseEntity)
     }
 }

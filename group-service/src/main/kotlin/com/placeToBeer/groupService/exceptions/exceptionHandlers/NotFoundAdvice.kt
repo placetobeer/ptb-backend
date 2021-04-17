@@ -15,7 +15,7 @@ class NotFoundAdvice {
 
     @ResponseBody
     @ExceptionHandler(AbstractNotFoundException::class)
-    fun groupNotFoundHandler(abstractNotFoundException: AbstractNotFoundException): ResponseEntity<String> {
+    fun entityNotFoundHandler(abstractNotFoundException: AbstractNotFoundException): ResponseEntity<String> {
         val headers = HttpHeaders()
         headers.add("Content-Type", "application/json; charset=utf-8")
         return ResponseEntity(ObjectMapper().writeValueAsString(abstractNotFoundException.message), headers, HttpStatus.NOT_FOUND)

@@ -1,6 +1,7 @@
 package com.placeToBeer.groupService.exceptions.exceptionHandlers
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.placeToBeer.groupService.exceptions.GroupNameIsInvalidException
 import com.placeToBeer.groupService.exceptions.GroupNotFoundException
 import org.assertj.core.api.Assertions
 
@@ -9,17 +10,18 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
-internal class NotFoundAdviceTest {
+internal class InvalidValueAdviceTest {
 
-    private val groupNotFoundAdvice = NotFoundAdvice()
+    private val invalidValueAdvice = InvalidValueAdvice()
 
     @Test
-    fun whenEmployeeNotFoundHandlerIsInvokedWithException_ThenReturnMessageStringAsJson() {
-        val exception = GroupNotFoundException(1)
+    fun whenInvalidValueHandlerIsInvokedWithException_ThenReturnMessageStringAsJson() {
+        val invalidGroupName = "invalidGroupName"
+        val exception = GroupNameIsInvalidException(invalidGroupName)
         val headers = HttpHeaders()
         headers.add("Content-Type", "application/json; charset=utf-8")
         val exceptionMessageJson = ObjectMapper().writeValueAsString(exception.message)
-        val responseEntity = ResponseEntity(exceptionMessageJson, headers, HttpStatus.NOT_FOUND)
-        Assertions.assertThat(groupNotFoundAdvice.groupNotFoundHandler(exception)).isEqualTo(responseEntity)
+        val responseEntity = ResponseEntity(exceptionMessageJson, headers, HttpStatus.UNPROCESSABLE_ENTITY)
+        Assertions.assertThat(invalidValueAdvice.invalidValueHandler(exception)).isEqualTo(responseEntity)
     }
 }

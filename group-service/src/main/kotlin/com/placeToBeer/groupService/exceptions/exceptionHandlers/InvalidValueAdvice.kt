@@ -16,7 +16,7 @@ class InvalidValueAdvice {
 
     @ResponseBody
     @ExceptionHandler(AbstractInvalidValueException::class)
-    fun groupNotFoundHandler(abstractInvalidValueException: AbstractInvalidValueException): ResponseEntity<String> {
+    fun invalidValueHandler(abstractInvalidValueException: AbstractInvalidValueException): ResponseEntity<String> {
         val headers = HttpHeaders()
         headers.add("Content-Type", "application/json; charset=utf-8")
         return ResponseEntity(ObjectMapper().writeValueAsString(abstractInvalidValueException.message), headers, HttpStatus.UNPROCESSABLE_ENTITY)
