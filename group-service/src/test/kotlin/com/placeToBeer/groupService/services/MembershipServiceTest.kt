@@ -6,7 +6,6 @@ import com.placeToBeer.groupService.entities.Group
 import com.placeToBeer.groupService.entities.Membership
 import com.placeToBeer.groupService.entities.Role
 import com.placeToBeer.groupService.entities.User
-import com.placeToBeer.groupService.entities.responses.UsersMembership
 import com.placeToBeer.groupService.exceptions.GroupNotFoundException
 import com.placeToBeer.groupService.gateways.GroupRepository
 import com.placeToBeer.groupService.gateways.MembershipRepository

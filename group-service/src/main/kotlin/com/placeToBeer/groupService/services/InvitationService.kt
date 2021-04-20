@@ -9,25 +9,36 @@ import com.placeToBeer.groupService.exceptions.UserNotFoundException
 import com.placeToBeer.groupService.gateways.GroupRepository
 import com.placeToBeer.groupService.gateways.InvitationRepository
 import com.placeToBeer.groupService.gateways.UserRepository
+import com.placeToBeer.groupService.interactors.invitation.AnswerInvitationInteractor
+import com.placeToBeer.groupService.interactors.invitation.InvitationListInteractor
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.util.*
+import com.placeToBeer.groupService.interactors.invitation.InvitationListInteractor as InvitationListInteractor1
 
 @Service
 class InvitationService(
     private var invitationRepository: InvitationRepository,
     private var userRepository: UserRepository,
-    private var groupRepository: GroupRepository
+    private var groupRepository: GroupRepository,
+    private var invitationListInteractor: InvitationListInteractor,
+    private var answerInvitationInteractor: AnswerInvitationInteractor
     ) {
 
     private var logger: Logger = LoggerFactory.getLogger(InvitationService::class.java)
 
     fun getInvitationsListByUserId(userId: Long): List<InvitationResponse>{
-        checkIfUserIsEmpty(userId)
-        return getInvitationsListByUser(userRepository.findById(userId).get())
+        return invitationListInteractor.execute(userId)
     }
 
+    fun answerInvitationByInvitationId(invitationId: Long, decision: Boolean){
+        return answerInvitationInteractor.execute(invitationId, decision)
+    }
+
+
+
+    /*
     private fun getInvitationsListByUser(user: User): MutableList<InvitationResponse> {
         val invitationsList: MutableList<InvitationResponse> = mutableListOf()
         for(invitation in invitationRepository.findAll()){
@@ -74,5 +85,5 @@ class InvitationService(
         logger.error("No group with groupId $groupId found")
         throw GroupNotFoundException(groupId)
     }
-
+    */
 }
