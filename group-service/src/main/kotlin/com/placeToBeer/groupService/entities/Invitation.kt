@@ -1,5 +1,7 @@
 package com.placeToBeer.groupService.entities
 
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import org.jetbrains.annotations.NotNull
 import javax.persistence.*
 
@@ -7,6 +9,7 @@ import javax.persistence.*
 data class Invitation(
     @NotNull
     @ManyToOne(cascade = [(CascadeType.MERGE)])
+    @OnDelete(action=OnDeleteAction.CASCADE)
     @JoinColumn(name = "RECIPIENT_ID")
     val recipient: User,
 
@@ -17,6 +20,7 @@ data class Invitation(
 
     @NotNull
     @ManyToOne(cascade = [(CascadeType.MERGE)])
+    @OnDelete(action=OnDeleteAction.CASCADE)
     @JoinColumn(name = "GROUP_ID")
     val group: Group,
 
