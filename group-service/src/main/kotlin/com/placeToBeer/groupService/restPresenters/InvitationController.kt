@@ -1,5 +1,6 @@
 package com.placeToBeer.groupService.restPresenters
 
+import com.fasterxml.jackson.databind.node.TextNode
 import com.placeToBeer.groupService.entities.responses.InvitationResponse
 import com.placeToBeer.groupService.services.InvitationService
 import io.swagger.annotations.Api
@@ -19,9 +20,10 @@ class InvitationController (private val invitationService: InvitationService){
         return invitationService.getInvitationsListByUserId(userId)
     }
 
+
     @ApiOperation(value = "Create or do not create a membership based on an invitation and delete the invitation")
-    @PutMapping(value = [""], params = ["invitationId", "decision"], produces = ["application/json;charset=UTF-8"])
-    fun answerInvitationByInvitationId(@RequestParam invitationId: Long, @RequestParam decision: Boolean){
+    @PutMapping(value = ["/{invitationId}/answer"], produces = ["application/json;charset=UTF-8"])
+    fun answerInvitationByInvitationId(@RequestBody decision: Boolean,  @PathVariable invitationId: Long){
         invitationService.answerInvitationByInvitationId(invitationId, decision)
     }
 }
