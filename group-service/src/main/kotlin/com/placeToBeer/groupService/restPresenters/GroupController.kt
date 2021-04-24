@@ -5,7 +5,6 @@ import com.placeToBeer.groupService.entities.Group
 import com.placeToBeer.groupService.services.GroupService
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
-import org.springframework.boot.json.JacksonJsonParser
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -29,6 +28,12 @@ class GroupController (private val groupService: GroupService){
     @PutMapping(value = ["/{groupId}/name"], produces = ["application/json;charset=UTF-8"])
     fun setGroupName(@RequestBody groupName: TextNode, @PathVariable groupId: Long){
         groupService.setGroupNameByGroupId(groupId, groupName.asText())
+    }
+
+    @ApiOperation(value = "Delete a group")
+    @DeleteMapping(value = ["/{groupId}"], produces = ["application/json;charset=UTF-8"])
+    fun deleteGroup(@PathVariable groupId: Long){
+        groupService.deleteGroup(groupId)
     }
 
 }
