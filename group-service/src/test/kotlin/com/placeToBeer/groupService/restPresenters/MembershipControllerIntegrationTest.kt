@@ -25,9 +25,9 @@ private var objectMapper: ObjectMapper) {
     private val validGroupId = 1L
     private val invalidGroupId = 2L
     private val userMemberships = listOf(
-            GroupsMembership(User(1, "Bea"), Role.OWNER),
-            GroupsMembership(User(2, "Patrick"), Role.ADMIN),
-            GroupsMembership(User(3, "Lucie"), Role.MEMBER))
+            GroupsMembership(User(1, "Bea","bea@mail.com"), Role.OWNER),
+            GroupsMembership(User(2, "Patrick","patrick@mail.com"), Role.ADMIN),
+            GroupsMembership(User(3, "Lucie","lucie@mail.com"), Role.MEMBER))
 
     @Test
     fun whenGetUserMembershipListByGroupId_withValidGroupId_thenReturnHttp200() {

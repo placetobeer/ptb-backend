@@ -16,9 +16,9 @@ internal class MembershipControllerTest {
 
     private val groupId = 1L
     private val shouldUserMemberships = listOf(
-            GroupsMembership(User(1, "Bea"), Role.OWNER),
-            GroupsMembership(User(2, "Patrick"), Role.ADMIN),
-            GroupsMembership(User(3, "Lucie"), Role.MEMBER))
+            GroupsMembership(User(1, "Bea","bea@mail.com"), Role.OWNER),
+            GroupsMembership(User(2, "Patrick","patrick@mail.com"), Role.ADMIN),
+            GroupsMembership(User(3, "Lucie","lucie@mail.com"), Role.MEMBER))
 
     init {
         whenever(membershipService.getGroupsMembershipListByGroupId(groupId)).thenReturn(shouldUserMemberships)

@@ -29,10 +29,10 @@ class InvitationControllerIntegrationTest(
         private val validUserId: Long = 2
         private val invalidUserId: Long = 1
         private val invitationList = listOf(
-            Invitation(User(1,"Bea"),User(2,"Patrick"), Group(1,"Club Crew"), Role.MEMBER)
+            Invitation("bea@mail.com",User(1,"Bea", "bea@mail.com"),User(2,"Patrick","patrick@mail.com"), Group(1,"Club Crew"), Role.MEMBER)
         )
         private val validInvitationResponseList = listOf(
-            InvitationResponse(Invitation(User(1,"Bea"),User(2,"Patrick"), Group(1,"Club Crew"), Role.MEMBER))
+            InvitationResponse(Invitation("bea@mail.com",User(1,"Bea","bea@mail.com"),User(2,"Patrick","patrick@mail.com"), Group(1,"Club Crew"), Role.MEMBER))
         )
 
         @Test

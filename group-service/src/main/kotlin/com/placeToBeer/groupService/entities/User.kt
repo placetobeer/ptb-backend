@@ -7,7 +7,9 @@ import javax.persistence.*
 data class User
         constructor(
         @Column(nullable = false)
-        var name:String){
+        var name:String,
+        @Column(nullable = false)
+        var email:String){
 
         @Id
         @Column(name="USER_ID")
@@ -15,8 +17,12 @@ data class User
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id:Long? = null
 
-        constructor():this("")
-        constructor(id: Long, name: String): this(name){
+
+        constructor():this("","")
+        /*constructor(id: Long, name: String): this(name,""){
+                this.id = id
+        }*///for testing
+        constructor(id: Long,name: String,email: String): this(name, email){
                 this.id = id
         }
 }

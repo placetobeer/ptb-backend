@@ -5,7 +5,6 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import com.placeToBeer.groupService.entities.*
 import com.placeToBeer.groupService.entities.responses.InvitationResponse
-import com.placeToBeer.groupService.gateways.MembershipRepository
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
@@ -16,17 +15,17 @@ class InvitationControllerTest(
     private val invitationController = InvitationController(mockInvitationService)
     private val userId: Long = 2
 
-    private val userA = User(1,"Bea")
-    private val userB = User(2, "Patrick")
-    private val userC = User(3, "Lucie")
+    private val userA = User(1,"Bea", "bea@mail.com")
+    private val userB = User(2, "Patrick","patrick@mail.com")
+    private val userC = User(3, "Lucie","lucie@mail.com")
 
     private val groupA = Group(1,"ClubCrew")
     private val groupB = Group(2,"Hüttengaudis")
 
     private val invitationList: MutableList<Invitation> = mutableListOf(
-        Invitation(1, userB, userA, groupA, Role.MEMBER),
-        Invitation(2, userB, userA, groupB, Role.ADMIN),
-        Invitation(3, userC, userA, groupA, Role.MEMBER)
+        Invitation(1,userB.email, userB, userA, groupA, Role.MEMBER),
+        Invitation(2,userB.email, userB, userA, groupB, Role.ADMIN),
+        Invitation(3,userC.email, userC, userA, groupA, Role.MEMBER)
     )
 
     @Test

@@ -6,7 +6,6 @@ import com.placeToBeer.groupService.entities.Role
 import com.placeToBeer.groupService.entities.User
 import com.placeToBeer.groupService.gateways.GroupRepository
 import com.placeToBeer.groupService.gateways.InvitationRepository
-import com.placeToBeer.groupService.gateways.MembershipRepository
 import com.placeToBeer.groupService.gateways.UserRepository
 import com.placeToBeer.groupService.plugins.GroupExistValidatorPlugin
 import com.placeToBeer.groupService.plugins.UserExistValidatorPlugin
@@ -20,15 +19,20 @@ class CreateInvitationInteractor(
     private var userExistValidatorPlugin: UserExistValidatorPlugin,
     private var groupExistValidatorPlugin: GroupExistValidatorPlugin
 ) {
-    fun execute(receiverId: Long, emitterId: Long, groupId: Long, role: Role) {
+    fun execute() {
+        //TODO
+    }
+
+    private fun createNewInvitationByIds(email: String, receiverId: Long, emitterId: Long, groupId: Long, role: Role) {
         val receiver = getUserByUserId(receiverId)
         val emitter = getUserByUserId(emitterId)
         val group = getGroupByGroupId(groupId)
-        createNewInvitation(receiver, emitter, group, role)
+        createNewInvitation(email, receiver, emitter, group, role)
     }
 
-    private fun createNewInvitation(receiver: User, emitter: User, group: Group, role: Role){
+    private fun createNewInvitation(email:String, receiver: User, emitter: User, group: Group, role: Role){
         val newInvitation = Invitation(
+            email,
             receiver,
             emitter,
             group,

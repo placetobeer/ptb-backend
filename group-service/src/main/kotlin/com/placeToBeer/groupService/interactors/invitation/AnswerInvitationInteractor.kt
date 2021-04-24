@@ -24,7 +24,7 @@ class AnswerInvitationInteractor(
         val invitation = getInvitationById(invitationId)
         if (decision){
             val groupId = invitation.group.id ?: 0
-            val userId = invitation.recipient.id ?: 0
+            val userId = invitation.recipient?.id ?: 0
             createMembershipByIds(groupId, userId, invitation.role)
             //delete invitation before creating Membership?
         }

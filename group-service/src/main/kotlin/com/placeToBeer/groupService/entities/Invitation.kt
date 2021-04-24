@@ -3,15 +3,20 @@ package com.placeToBeer.groupService.entities
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import org.jetbrains.annotations.NotNull
+import org.jetbrains.annotations.Nullable
 import javax.persistence.*
 
 @Entity
 data class Invitation(
     @NotNull
+    @Column(name = "RECIPIENT_EMAIL")
+    val email: String,
+
+    @Nullable
     @ManyToOne(cascade = [(CascadeType.MERGE)])
     @OnDelete(action=OnDeleteAction.CASCADE)
     @JoinColumn(name = "RECIPIENT_ID")
-    val recipient: User,
+    val recipient: User?,
 
     @NotNull
     @ManyToOne(cascade = [(CascadeType.MERGE)])
@@ -36,12 +41,14 @@ data class Invitation(
 
 
     constructor() : this(
+        "",
         User(),
         User(),
         Group(),
         Role.MEMBER) {}
-    constructor(id: Long, recipient: User, emitter: User, group: Group, role: Role
-    ): this(recipient, emitter, group, role){
+    constructor(id: Long, email: String, recipient: User, emitter: User, group: Group, role: Role
+    ): this(email, recipient, emitter, group, role){
         this.id = id
     }
+    constructor(email: String, emitter: User, group: Group, role: Role): this(email, null, emitter, group, role)
 }
