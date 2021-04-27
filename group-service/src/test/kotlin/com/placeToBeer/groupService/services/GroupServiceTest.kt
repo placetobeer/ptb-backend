@@ -10,6 +10,10 @@ import com.placeToBeer.groupService.exceptions.UserNotFoundException
 import com.placeToBeer.groupService.gateways.GroupRepository
 import com.placeToBeer.groupService.gateways.MembershipRepository
 import com.placeToBeer.groupService.gateways.UserRepository
+import com.placeToBeer.groupService.interactors.group.CreateGroupInteractor
+import com.placeToBeer.groupService.interactors.group.DeleteGroupInteractor
+import com.placeToBeer.groupService.interactors.group.GroupListInteractor
+import com.placeToBeer.groupService.interactors.group.SetGroupNameInteractor
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -28,46 +32,38 @@ import kotlin.test.assertNull
 
 internal class GroupServiceTest {
 
+    private val groupListInteractor: GroupListInteractor = mock()
+    private val createGroupInteractor: CreateGroupInteractor = mock()
+    private val setGroupNameInteractor: SetGroupNameInteractor = mock()
+    private val deleteGroupInteractor: DeleteGroupInteractor = mock()
 
-    private val userId = 1L
-    private val wrongUserId = 2L
-    private val user = User()
-    private var expectedGroupList: List<Group> = emptyList()
-    private var expectedNewGroup: Group? = null
+    private val groupService = GroupService(groupListInteractor, createGroupInteractor, setGroupNameInteractor, deleteGroupInteractor)
 
-    private var exception: Exception? = null
+    private val validUserId = 1L
+    private val validGroupId = 1L
+    private val validGroupName = "groupName"
 
-    init {
-        this.user.id = userId
-
-        val group1 = Group()
-        val group2 = Group()
-        expectedGroupList = listOf(group1, group2)
-
-        val membership1 = Membership()
-        membership1.group = group1
-        membership1.member = user
-        val membership2 = Membership()
-        membership2.group = group2
-        membership2.member = user
-
-        expectedNewGroup = Group(userId, "Testgruppe")
+    @Test
+    fun whenGetGroupListByUserId_ThenCallInteractor() {
+        groupService.getGroupListByUserId(validUserId)
+        verify(groupListInteractor, times(1)).execute(validUserId)
     }
 
-    @BeforeEach
-    fun init(){
-        exception = null
+    @Test
+    fun whenCreateGroup_ThenCallInteractor() {
+        groupService.createGroup(validUserId, validGroupName)
+        verify(createGroupInteractor, times(1)).execute(validUserId, validGroupName)
     }
 
+    @Test
+    fun whenSetGroupNameByGroupId_ThenCallInteractor() {
+        groupService.setGroupNameByGroupId(validGroupId, validGroupName)
+        verify(setGroupNameInteractor, times(1)).execute(validGroupId, validGroupName)
+    }
 
-
-
-
-
-
-
-
-
-
-
+    @Test
+    fun whenDeleteGroup_ThenCallInteractor() {
+        groupService.deleteGroup(validGroupId)
+        verify(deleteGroupInteractor, times(1)).execute(validGroupId)
+    }
 }
