@@ -24,10 +24,13 @@ private var objectMapper: ObjectMapper) {
 
     private val validUserId = 1L
     private val invalidUserId = 2L
-    private val groupName = "Group name"
+
+    private val validGroupId = 1L
+    private val validGroupName = "Group name"
+    private val invalidGroupName = ""
 
     private val expectedGroupList: MutableList<Group> = mutableListOf(Group(1, "ClubCrew"), Group(2, "Hüttengaudis"), Group(3, "Corga"))
-    private val expectedGroup = Group(validUserId, groupName)
+    private val expectedGroup = Group(validUserId, validGroupName)
 
     @Test
     fun whenGetGroupsByUserIdWithValidUserId_thenReturn200() {
@@ -62,20 +65,20 @@ private var objectMapper: ObjectMapper) {
 
     @Test
     fun whenCreateGroupWithValidUserIdAndGroupName_thenReturn200() {
-        whenever(mockGroupService.createGroup(validUserId, groupName)).thenReturn(Group(validUserId, groupName))
+        whenever(mockGroupService.createGroup(validUserId, validGroupName)).thenReturn(Group(validUserId, validGroupName))
         mockMvc.perform(MockMvcRequestBuilders.post("/groups")
                 .param("userId", "$validUserId")
-                .param("groupName", groupName))
+                .param("groupName", validGroupName))
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
     }
 
     @Test
     fun whenCreateGroupWithValidUserIdAndGroupName_thenReturnValidAnswer() {
-        whenever(mockGroupService.createGroup(validUserId, groupName)).thenReturn(Group(validUserId, groupName))
+        whenever(mockGroupService.createGroup(validUserId, validGroupName)).thenReturn(Group(validUserId, validGroupName))
         mockMvc.perform(MockMvcRequestBuilders.post("/groups")
                 .param("userId", "$validUserId")
-                .param("groupName", groupName))
+                .param("groupName", validGroupName))
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
                 .andExpect(MockMvcResultMatchers.content().string(objectMapper.writeValueAsString(expectedGroup)))
@@ -83,10 +86,10 @@ private var objectMapper: ObjectMapper) {
 
     @Test
     fun whenCreateGroupWithInvalidUserIdAndGroupName_thenReturn404() {
-        whenever(mockGroupService.createGroup(invalidUserId, groupName)).thenThrow(UserNotFoundException::class.java)
+        whenever(mockGroupService.createGroup(invalidUserId, validGroupName)).thenThrow(UserNotFoundException::class.java)
         mockMvc.perform(MockMvcRequestBuilders.post("/groups")
                 .param("userId", "$invalidUserId")
-                .param("groupName", groupName))
+                .param("groupName", validGroupName))
                 .andExpect(MockMvcResultMatchers.status().isNotFound)
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
     }
