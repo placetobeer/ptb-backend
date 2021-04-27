@@ -19,9 +19,8 @@ data class User
 
 
         constructor():this("","")
-        /*constructor(id: Long, name: String): this(name,""){
-                this.id = id
-        }*///for testing
+        constructor(id: Long, name: String): this(id,name, ""){
+        }
         constructor(id: Long,name: String,email: String): this(name, email){
                 this.id = id
         }
