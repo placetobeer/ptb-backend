@@ -4,17 +4,17 @@ INSERT INTO friend_group (name) VALUES
 ('Coffin Dancer');
 
 
-INSERT INTO user (name) VALUES
-('Bea'),
-('Jonas'),
-('Katja'),
-('Patrick'),
-('Lucie'),
-('Tom'),
-('Nana Otafrija'),
-('Pall-Bearing'),
-('Waiting Service'),
-('Dada awu');
+INSERT INTO user (name, email) VALUES
+('Bea','bea@mail.com'),
+('Jonas','jonas@mail.com'),
+('Katja','katja@mail.com'),
+('Patrick','patrick@mail.com'),
+('Lucie','lucie@mail.com'),
+('Tom','tom@mail.com'),
+('Nana Otafrija','nOtafija@mail.com'),
+('Pall-Bearing','pall-B@mail.com'),
+('Waiting Service','waiting-service@mail.com'),
+('Dada awu','dada.awu@mail.com');
 
 INSERT INTO membership (group_id, member_id, role) VALUES
 ('1', '1', '2'),

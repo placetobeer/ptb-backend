@@ -10,5 +10,4 @@ class MembershipService(private val groupsMembershipListInteractor: GroupsMember
     fun getGroupsMembershipListByGroupId(groupId: Long): List<GroupsMembership> {
         return groupsMembershipListInteractor.execute(groupId)
     }
-
 }
