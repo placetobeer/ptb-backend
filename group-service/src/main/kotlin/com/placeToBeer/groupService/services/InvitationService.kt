@@ -10,6 +10,7 @@ import com.placeToBeer.groupService.gateways.GroupRepository
 import com.placeToBeer.groupService.gateways.InvitationRepository
 import com.placeToBeer.groupService.gateways.UserRepository
 import com.placeToBeer.groupService.interactors.invitation.AnswerInvitationInteractor
+import com.placeToBeer.groupService.interactors.invitation.CreateInvitationInteractor
 import com.placeToBeer.groupService.interactors.invitation.InvitationListInteractor
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -20,7 +21,8 @@ import com.placeToBeer.groupService.interactors.invitation.InvitationListInterac
 @Service
 class InvitationService(
     private var invitationListInteractor: InvitationListInteractor,
-    private var answerInvitationInteractor: AnswerInvitationInteractor
+    private var answerInvitationInteractor: AnswerInvitationInteractor,
+    private var createInvitationInteractor: CreateInvitationInteractor
     ) {
 
     private var logger: Logger = LoggerFactory.getLogger(InvitationService::class.java)
@@ -32,5 +34,9 @@ class InvitationService(
     fun answerInvitationByInvitationId(invitationId: Long, decision: Boolean){
         return answerInvitationInteractor.execute(invitationId, decision)
     }
+
+//    fun createInvitations(invitationList: List<Invitation>): List<Invitation> {
+//        return createInvitationInteractor.execute(invitationList)
+//    }
 
 }
