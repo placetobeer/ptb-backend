@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable
 import javax.persistence.*
 
 @Entity
+@Table(name = "invitation")
 data class Invitation(
     @NotNull
     @Column(name = "RECIPIENT_EMAIL")
