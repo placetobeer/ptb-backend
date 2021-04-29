@@ -9,8 +9,8 @@ import com.placeToBeer.groupService.plugins.GroupExistValidatorPlugin
 import org.springframework.stereotype.Component
 
 @Component
-class GetGroupsMembershipListInteractor(private var groupRepository: GroupRepository, private var membershipRepository: MembershipRepository,
-                                        private var groupExistValidatorPlugin: GroupExistValidatorPlugin) {
+class GroupsMembershipListInteractor(private var groupRepository: GroupRepository, private var membershipRepository: MembershipRepository,
+                                     private var groupExistValidatorPlugin: GroupExistValidatorPlugin) {
 
     fun execute(groupId: Long): List<GroupsMembership> {
         val possibleGroup = groupRepository.findById(groupId)

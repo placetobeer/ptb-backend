@@ -10,6 +10,10 @@ import com.placeToBeer.groupService.exceptions.UserNotFoundException
 import com.placeToBeer.groupService.gateways.GroupRepository
 import com.placeToBeer.groupService.gateways.MembershipRepository
 import com.placeToBeer.groupService.gateways.UserRepository
+import com.placeToBeer.groupService.interactors.group.CreateGroupInteractor
+import com.placeToBeer.groupService.interactors.group.DeleteGroupInteractor
+import com.placeToBeer.groupService.interactors.group.GroupListInteractor
+import com.placeToBeer.groupService.interactors.group.SetGroupNameInteractor
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -27,126 +31,39 @@ import kotlin.test.assertNull
 
 
 internal class GroupServiceTest {
-    /*
-    todo refactor this test
-    private val mockMembershipRepository: MembershipRepository = mock()
-    private val mockUserRepository: UserRepository = mock()
-    private val mockGroupRepository: GroupRepository = mock()
 
-    private val groupService = GroupService(mockMembershipRepository, mockUserRepository, mockGroupRepository)
+    private val groupListInteractor: GroupListInteractor = mock()
+    private val createGroupInteractor: CreateGroupInteractor = mock()
+    private val setGroupNameInteractor: SetGroupNameInteractor = mock()
+    private val deleteGroupInteractor: DeleteGroupInteractor = mock()
 
-    private val userId = 1L
-    private val wrongUserId = 2L
-    private val user = User()
-    private var expectedGroupList: List<Group> = emptyList()
-    private var expectedNewGroup: Group? = null
+    private val groupService = GroupService(groupListInteractor, createGroupInteractor, setGroupNameInteractor, deleteGroupInteractor)
 
-    private var exception: Exception? = null
-
-    init {
-        this.user.id = userId
-
-        val group1 = Group()
-        val group2 = Group()
-        expectedGroupList = listOf(group1, group2)
-
-        val membership1 = Membership()
-        membership1.group = group1
-        membership1.member = user
-        val membership2 = Membership()
-        membership2.group = group2
-        membership2.member = user
-
-        whenever(mockUserRepository.findById(userId)).thenReturn(Optional.of(user))
-        whenever(mockMembershipRepository.findByMember(user)).thenReturn(listOf(membership1, membership2))
-
-        expectedNewGroup = Group(userId, "Testgruppe")
-    }
-
-    @BeforeEach
-    fun init(){
-        exception = null
-    }
-
+    private val validUserId = 1L
+    private val validGroupId = 1L
+    private val validGroupName = "groupName"
 
     @Test
-    fun whenGetGroupListWithExistingUserId_ThenReturnValidGroupList() {
-        val isGroupList = doGroupListByUserId(userId)
-        Assertions.assertThat(isGroupList).isEqualTo(expectedGroupList)
-    }
-
-
-    @Test
-    fun whenGetGroupListWithNonExistingUserId_ThenThrowUserNotFoundException(){
-        val isGroupList = doGroupListByUserId(wrongUserId)
-        Assertions.assertThat(isGroupList).isNull()
-        Assertions.assertThat(this.exception).isExactlyInstanceOf(UserNotFoundException::class.java)
-    }
-
-    private fun doGroupListByUserId(userId: Long): List<Group>? {
-        var groupList: List<Group>? = null
-        try {
-            groupList = groupService.getGroupListByUserId(userId)
-        } catch (exception: Exception){
-            this.exception = exception
-        }
-        return groupList
+    fun whenGetGroupListByUserId_ThenCallInteractor() {
+        groupService.getGroupListByUserId(validUserId)
+        verify(groupListInteractor, times(1)).execute(validUserId)
     }
 
     @Test
-    fun whenCreateGroupWithExistingUserId_ThenReturnNewGroup(){
-        val isNewGroup = doCreateGroup(userId)
-        Assertions.assertThat(isNewGroup).isEqualTo(expectedNewGroup)
+    fun whenCreateGroup_ThenCallInteractor() {
+        groupService.createGroup(validUserId, validGroupName)
+        verify(createGroupInteractor, times(1)).execute(validUserId, validGroupName)
     }
 
     @Test
-    fun whenCreateGroupWithNonExistingUserId_ThenThrowUserNotFoundException(){
-        val isNewGroup = doCreateGroup(wrongUserId)
-        Assertions.assertThat(isNewGroup).isNull()
-        Assertions.assertThat(this.exception).isExactlyInstanceOf(UserNotFoundException::class.java)
-    }
-
-    private fun doCreateGroup(userId: Long): Group? {
-        var newGroup: Group? = null
-        try {
-            newGroup = groupService.createGroup(userId, "Testgruppe")
-        } catch (exception: Exception){
-            this.exception = exception
-        }
-        return newGroup
+    fun whenSetGroupNameByGroupId_ThenCallInteractor() {
+        groupService.setGroupNameByGroupId(validGroupId, validGroupName)
+        verify(setGroupNameInteractor, times(1)).execute(validGroupId, validGroupName)
     }
 
     @Test
-    fun whenCreateOwnershipWithExistingGroup_ThenSaveOwnership(){
-        val user = User(userId, "")
-        val group = Group("Test Group")
-        val expectedOwnership = Membership(group, user, Role.OWNER)
-
-        doCreateOwnership(userId, group)
-
-        verify(mockMembershipRepository).save(argThat {
-            this == expectedOwnership
-        })
+    fun whenDeleteGroup_ThenCallInteractor() {
+        groupService.deleteGroup(validGroupId)
+        verify(deleteGroupInteractor, times(1)).execute(validGroupId)
     }
-
-    @Test
-    fun whenCreateOwnershipWithNonExistingGroup_ThenThrowGroupNotFoundException(){
-        val group = Group("Not existing")
-        whenever(groupService.createOwnership(this.user, group)).thenThrow(GroupNotFoundException::class.java)
-
-        doCreateOwnership(userId, group)
-
-        Assertions.assertThat(this.exception).isExactlyInstanceOf(GroupNotFoundException::class.java)
-    }
-
-    private fun doCreateOwnership(userId: Long, group: Group) {
-        try {
-            groupService.createOwnership(this.user, group)
-        } catch (exception: Exception){
-            this.exception = exception
-        }
-    }
-
-     */
-
 }
