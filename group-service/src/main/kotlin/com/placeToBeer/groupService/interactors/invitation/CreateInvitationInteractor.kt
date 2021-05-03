@@ -26,10 +26,22 @@ class CreateInvitationInteractor(
 
     private fun createInvitations(invitationRequest: InvitationRequest): List<Invitation> {
         val savedInvitationEntities: MutableList<Invitation> = mutableListOf()
-        for (invitation in invitationRequest.mapToInvitationEntity()) {
+        for (invitation in mapToInvitationEntity(invitationRequest)) {
             savedInvitationEntities.add(invitationRepository.save(invitation))
         }
         return savedInvitationEntities
+    }
+
+    private fun mapToInvitationEntity(invitationRequest: InvitationRequest): List<Invitation> {
+        val invitationEntityList: MutableList<Invitation> = mutableListOf()
+        for ( invitation in invitationRequest.invitationList ) {
+            var role = Role.MEMBER
+            if (invitation.grantAdmin){
+                role = Role.ADMIN
+            }
+            invitationEntityList.add(Invitation(invitation.email, invitationRequest.emitter, getGroupByGroupId(invitationRequest.groupId), role))
+        }
+        return invitationEntityList;
     }
 
 //    private fun createNewInvitationByIds(email: String, receiverId: Long, emitterId: Long, groupId: Long, role: Role) {
@@ -55,8 +67,8 @@ class CreateInvitationInteractor(
 //        return userExistValidatorPlugin.validateAndReturn(user,userId)
 //    }
 //
-//    private fun getGroupByGroupId(groupId: Long):Group{
-//        val group = groupRepository.findById(groupId)
-//        return groupExistValidatorPlugin.validateAndReturn(group,groupId)
-//    }
+    private fun getGroupByGroupId(groupId: Long):Group{
+        val group = groupRepository.findById(groupId)
+        return groupExistValidatorPlugin.validateAndReturn(group,groupId)
+    }
 }
