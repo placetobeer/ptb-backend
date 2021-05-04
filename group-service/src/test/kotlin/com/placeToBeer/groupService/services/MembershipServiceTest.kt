@@ -12,6 +12,7 @@ import com.placeToBeer.groupService.entities.responses.GroupsMembership
 import com.placeToBeer.groupService.exceptions.GroupNotFoundException
 import com.placeToBeer.groupService.gateways.GroupRepository
 import com.placeToBeer.groupService.gateways.MembershipRepository
+import com.placeToBeer.groupService.interactors.membership.DeleteMembershipInteractor
 import com.placeToBeer.groupService.interactors.membership.GroupsMembershipListInteractor
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -22,10 +23,12 @@ import java.util.*
 internal class MembershipServiceTest {
 
     private val groupsMembershipListInteractor: GroupsMembershipListInteractor = mock()
+    private val deleteMembershipInteractor: DeleteMembershipInteractor = mock()
 
-    private val membershipService = MembershipService(groupsMembershipListInteractor)
+    private val membershipService = MembershipService(groupsMembershipListInteractor, deleteMembershipInteractor)
 
     private val validGroupId = 1L
+    private val validMembershipId = 1L
 
     @Test
     fun whenGetGroupsMembershipListByGroupId_ThenInteractorIsExecuted() {
@@ -33,5 +36,10 @@ internal class MembershipServiceTest {
         verify(groupsMembershipListInteractor, times(1)).execute(validGroupId)
     }
 
+    @Test
+    fun whenDeleteMembershipById_ThenInteractorIsExecuted() {
+        membershipService.deleteMembershipById(validMembershipId)
+        verify(deleteMembershipInteractor, times(1)).execute(validMembershipId)
+    }
 
 }

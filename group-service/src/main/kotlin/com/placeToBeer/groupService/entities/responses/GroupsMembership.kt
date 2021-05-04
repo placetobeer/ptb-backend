@@ -9,6 +9,14 @@ import org.jetbrains.annotations.NotNull
 data class GroupsMembership(
         @NotNull
         @ApiModelProperty(
+                value = "MembershipId",
+                example = "1",
+                required = true
+        )
+        var membershipId: Long,
+
+        @NotNull
+        @ApiModelProperty(
                 value = "User",
                 example = "1",
                 required = true)
@@ -21,6 +29,6 @@ data class GroupsMembership(
                 required = true)
         var role: Role) {
 
-    constructor(membership: Membership) : this(membership.member, membership.role)
+    constructor(membership: Membership) : this(membership.id!!, membership.member, membership.role)
 
 }
