@@ -1,8 +1,10 @@
 package com.placeToBeer.groupService.interactors.group
 
 import com.nhaarman.mockitokotlin2.*
+import com.placeToBeer.groupService.exceptions.GroupNotFoundException
 import com.placeToBeer.groupService.gateways.GroupRepository
-import org.junit.jupiter.api.Assertions
+import org.assertj.core.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 
 import org.junit.jupiter.api.Test
 
@@ -16,32 +18,37 @@ internal class DeleteGroupInteractorTest {
     private val validGroupId = 1L
     private val invalidGroupId = 2L
 
+    var exception: Exception? = null
+
     init {
-        whenever(groupRepository.existsById(1L)).thenReturn(true)
-        whenever(groupRepository.existsById(2L)).thenReturn(false)
+        whenever(groupRepository.existsById(validGroupId)).thenReturn(true)
+        whenever(groupRepository.existsById(invalidGroupId)).thenReturn(false)
+    }
+
+    @BeforeEach
+    fun setUp(){
+        exception = null
     }
 
     @Test
     fun whenExecuteWithExistingGroup_ThenNoError() {
-        var exception: Exception? = null
-        try {
-            deleteGroupInteractor.execute(validGroupId)
-        } catch (e: Exception) {
-            exception = e
-        }
-        Assertions.assertNull(exception)
+        doExecute(validGroupId)
+        assertThat(exception).isNull()
         verify(groupRepository, times(1)).deleteById(validGroupId)
     }
 
     @Test
-    fun whenExecuteWithExistingGroup_ThenError() {
-        var exception: Exception? = null
+    fun whenExecuteWithNonExistingGroup_ThenError() {
+        doExecute(invalidGroupId)
+        assertThat(exception).isInstanceOf(GroupNotFoundException::class.java)
+        verify(groupRepository, never()).deleteById(any())
+    }
+
+    private fun doExecute(groupId: Long){
         try {
-            deleteGroupInteractor.execute(invalidGroupId)
+            deleteGroupInteractor.execute(groupId)
         } catch (e: Exception) {
             exception = e
         }
-        Assertions.assertNotNull(exception)
-        verify(groupRepository, never()).deleteById(any())
     }
 }
