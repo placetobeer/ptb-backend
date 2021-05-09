@@ -1,1 +1,11 @@
 language: java
+
+env:
+  CODACY_PROJECT_TOKEN=900c3d7ee0b643b3a35fa2bf64df2333
+
+
+before_script:
+  - bash <(curl -Ls https://coverage.codacy.com/get.sh) download
+
+after_success:
+  - bash <(curl -Ls https://coverage.codacy.com/get.sh)
