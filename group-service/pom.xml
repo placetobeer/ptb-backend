@@ -15,40 +15,6 @@
         <kotlin.version>1.4.20-RC</kotlin.version>
     </properties>
 
-    <profiles>
-        <profile>
-            <id>codecoverage</id>
-            <activation>
-                <property><name>env.TRAVIS</name></property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.gavinmogan</groupId>
-                        <artifactId>codacy-maven-plugin</artifactId>
-                        <version>1.2.0</version>
-                        <configuration>
-                            <apiToken>ADbIX2eVlfrmKl2npaR4</apiToken>
-                            <projectToken>900c3d7ee0b643b3a35fa2bf64df2333</projectToken>
-                            <coverageReportFile>${project.reporting.outputDirectory}/jacoco.xml</coverageReportFile>
-                            <codacyApiBaseUrl>https://api.codacy.com</codacyApiBaseUrl>
-                            <failOnMissingReportFile>false</failOnMissingReportFile>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>post-test</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>coverage</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
     <dependencies>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
@@ -78,7 +44,6 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -108,25 +73,6 @@
                 <configuration>
                     <jvmTarget>1.8</jvmTarget>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.9</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
