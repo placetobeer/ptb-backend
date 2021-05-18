@@ -13,11 +13,11 @@ open class MembershipRepositoryIntegrationTest(@Autowired val membershipReposito
 
     @Test
     fun whenUserInput_ThenReturnMembershipList () {
-        val user1 = User(5,"Lucie","lucie@mail.com")
+        val user1 = User(1,"Bea","bea@mail.com")
         val group1 = Group(1, "Bratis Kartoffeln")
-        val group2 = Group(2, "Hüttengaudis")
-        val membership1 = Membership(5, group1, User(5, "Lucie", "lucie@mail.com"), Role.MEMBER)
-        val membership2 = Membership(8, group2, User(5, "Lucie", "lucie@mail.com"), Role.ADMIN)
+        val group2 = Group(4, "Karaoke Kollegium")
+        val membership1 = Membership(5, group1, User(1, "Bea", "bea@mail.com"), Role.OWNER)
+        val membership2 = Membership(8, group2, User(1, "Bea", "bea@mail.com"), Role.ADMIN)
         val shouldMemberships = mutableListOf<Membership>(membership1, membership2)
 
 
