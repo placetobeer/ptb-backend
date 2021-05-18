@@ -44,4 +44,10 @@ internal class MembershipServiceTest {
         verify(deleteMembershipInteractor, times(1)).execute(validMembershipId)
     }
 
+    @Test
+    fun whenSetRole_thenInteractorIsExecuted() {
+        membershipService.setRole(validMembershipId, Role.MEMBER)
+        verify(setRoleInteractor, times(1)).execute(validMembershipId, Role.MEMBER)
+    }
+
 }
