@@ -4,12 +4,14 @@ import com.placeToBeer.groupService.entities.Invitation
 import com.placeToBeer.groupService.entities.Role
 import com.placeToBeer.groupService.entities.responses.InvitationResponse
 import com.placeToBeer.groupService.entities.User
+import com.placeToBeer.groupService.entities.responses.GroupInvitation
 import com.placeToBeer.groupService.exceptions.GroupNotFoundException
 import com.placeToBeer.groupService.exceptions.UserNotFoundException
 import com.placeToBeer.groupService.gateways.GroupRepository
 import com.placeToBeer.groupService.gateways.InvitationRepository
 import com.placeToBeer.groupService.gateways.UserRepository
 import com.placeToBeer.groupService.interactors.invitation.AnswerInvitationInteractor
+import com.placeToBeer.groupService.interactors.invitation.GroupInvitationListInteractor
 import com.placeToBeer.groupService.interactors.invitation.InvitationListInteractor
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -19,11 +21,9 @@ import com.placeToBeer.groupService.interactors.invitation.InvitationListInterac
 
 @Service
 class InvitationService(
-    private var invitationListInteractor: InvitationListInteractor,
-    private var answerInvitationInteractor: AnswerInvitationInteractor
-    ) {
-
-    private var logger: Logger = LoggerFactory.getLogger(InvitationService::class.java)
+    private val invitationListInteractor: InvitationListInteractor,
+    private val answerInvitationInteractor: AnswerInvitationInteractor,
+    private val groupInvitationListInteractor: GroupInvitationListInteractor) {
 
     fun getInvitationsListByUserId(userId: Long): List<InvitationResponse>{
         return invitationListInteractor.execute(userId)
@@ -31,6 +31,10 @@ class InvitationService(
 
     fun answerInvitationByInvitationId(invitationId: Long, decision: Boolean){
         return answerInvitationInteractor.execute(invitationId, decision)
+    }
+
+    fun getGroupInvitationListByGroupId(groupId: Long): List<GroupInvitation> {
+        return groupInvitationListInteractor.execute(groupId)
     }
 
 }
