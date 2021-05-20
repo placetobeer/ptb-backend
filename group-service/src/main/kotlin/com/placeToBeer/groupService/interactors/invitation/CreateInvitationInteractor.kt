@@ -7,7 +7,7 @@ import com.placeToBeer.groupService.entities.User
 import com.placeToBeer.groupService.gateways.GroupRepository
 import com.placeToBeer.groupService.gateways.InvitationRepository
 import com.placeToBeer.groupService.gateways.UserRepository
-import com.placeToBeer.groupService.mail.EmailServiceImpl
+import com.placeToBeer.groupService.services.mail.EmailServiceImpl
 import com.placeToBeer.groupService.plugins.GroupExistValidatorPlugin
 import com.placeToBeer.groupService.plugins.UserExistValidatorPlugin
 import com.placeToBeer.groupService.plugins.UserRegisteredValidatorPlugin
@@ -58,8 +58,8 @@ class CreateInvitationInteractor(
     }
 
     private fun getReceiverByEmail(email: String): User? {
-        val userList = userRepository.getUserByEmail(email)
-        return userRegisteredValidatorPlugin.validateAndReturn(userList, email)
+        val user = userRepository.getUserByEmail(email)
+        return userRegisteredValidatorPlugin.validateAndReturn(user, email)
     }
 
     private fun sendInvitationMail(userEmail: String, emitterName: String, groupName: String, role: Role) {

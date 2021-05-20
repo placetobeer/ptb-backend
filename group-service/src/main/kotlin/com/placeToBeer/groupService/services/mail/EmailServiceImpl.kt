@@ -1,4 +1,4 @@
-package com.placeToBeer.groupService.mail
+package com.placeToBeer.groupService.services.mail
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.mail.SimpleMailMessage
