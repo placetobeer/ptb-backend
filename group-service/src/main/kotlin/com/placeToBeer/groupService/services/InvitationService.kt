@@ -5,6 +5,7 @@ import com.placeToBeer.groupService.entities.Role
 import com.placeToBeer.groupService.entities.responses.InvitationResponse
 import com.placeToBeer.groupService.entities.User
 import com.placeToBeer.groupService.entities.requests.InvitationRequest
+import com.placeToBeer.groupService.entities.responses.GroupInvitation
 import com.placeToBeer.groupService.exceptions.GroupNotFoundException
 import com.placeToBeer.groupService.exceptions.UserNotFoundException
 import com.placeToBeer.groupService.gateways.GroupRepository
@@ -27,6 +28,9 @@ class InvitationService(
     ) {
 
     private var logger: Logger = LoggerFactory.getLogger(InvitationService::class.java)
+    private val invitationListInteractor: InvitationListInteractor,
+    private val answerInvitationInteractor: AnswerInvitationInteractor,
+    private val groupInvitationListInteractor: GroupInvitationListInteractor) {
 
     fun getInvitationsListByUserId(userId: Long): List<InvitationResponse>{
         return invitationListInteractor.execute(userId)
@@ -38,6 +42,8 @@ class InvitationService(
 
     fun createInvitations(invitationRequest: InvitationRequest): List<Invitation> {
         return createInvitationInteractor.execute(invitationRequest)
+    fun getGroupInvitationListByGroupId(groupId: Long): List<GroupInvitation> {
+        return groupInvitationListInteractor.execute(groupId)
     }
 
 }

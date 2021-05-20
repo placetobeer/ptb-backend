@@ -39,7 +39,7 @@ class InvitationControllerTest(
         whenever(mockInvitationService.getInvitationsListByUserId(userId)).thenReturn(shouldInvitationResponseList)
 
         /*When*/
-        val givenInvitationResponseList = invitationController.getInvitationsListByUserId(userId)
+        val givenInvitationResponseList = invitationController.getInvitationsListByUserId(userId = userId)
 
         /*Then*/
         Assertions.assertThat(givenInvitationResponseList).isEqualTo(shouldInvitationResponseList)
