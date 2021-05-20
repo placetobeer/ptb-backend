@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface UserRepository : CrudRepository<User, Long>{
+    fun getUserByEmail(email: String): List<User>
 }

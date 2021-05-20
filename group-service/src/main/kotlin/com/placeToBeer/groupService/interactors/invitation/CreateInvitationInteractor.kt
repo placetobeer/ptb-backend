@@ -9,6 +9,7 @@ import com.placeToBeer.groupService.gateways.InvitationRepository
 import com.placeToBeer.groupService.gateways.UserRepository
 import com.placeToBeer.groupService.plugins.GroupExistValidatorPlugin
 import com.placeToBeer.groupService.plugins.UserExistValidatorPlugin
+import com.placeToBeer.groupService.plugins.UserRegisteredValidatorPlugin
 import org.springframework.stereotype.Component
 
 @Component
@@ -17,20 +18,21 @@ class CreateInvitationInteractor(
     private var groupRepository: GroupRepository,
     private var invitationRepository: InvitationRepository,
     private var userExistValidatorPlugin: UserExistValidatorPlugin,
-    private var groupExistValidatorPlugin: GroupExistValidatorPlugin
+    private var groupExistValidatorPlugin: GroupExistValidatorPlugin,
+    private var userRegisteredValidatorPlugin: UserRegisteredValidatorPlugin
 ) {
     fun execute() {
         //TODO
     }
 
     private fun createNewInvitationByIds(email: String, receiverId: Long, emitterId: Long, groupId: Long, role: Role) {
-        val receiver = getUserByUserId(receiverId)
+        val receiver = getReceiverByEmail(email)
         val emitter = getUserByUserId(emitterId)
         val group = getGroupByGroupId(groupId)
         createNewInvitation(email, receiver, emitter, group, role)
     }
 
-    private fun createNewInvitation(email:String, receiver: User, emitter: User, group: Group, role: Role){
+    private fun createNewInvitation(email:String, receiver: User?, emitter: User, group: Group, role: Role){
         val newInvitation = Invitation(
             email,
             receiver,
@@ -49,5 +51,15 @@ class CreateInvitationInteractor(
     private fun getGroupByGroupId(groupId: Long):Group{
         val group = groupRepository.findById(groupId)
         return groupExistValidatorPlugin.validateAndReturn(group,groupId)
+    }
+
+    private fun getReceiverByEmail(email: String):User?{
+        val userList = userRepository.getUserByEmail(email)
+        val user: User? = if(userList.isEmpty()){
+            null
+        } else{
+            userList.first()
+        }
+        return userRegisteredValidatorPlugin.validateAndReturn(user,email)
     }
 }
