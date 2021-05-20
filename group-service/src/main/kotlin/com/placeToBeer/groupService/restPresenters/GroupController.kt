@@ -1,6 +1,5 @@
 package com.placeToBeer.groupService.restPresenters
 
-import com.fasterxml.jackson.databind.node.TextNode
 import com.placeToBeer.groupService.entities.Group
 import com.placeToBeer.groupService.services.GroupService
 import io.swagger.annotations.Api
