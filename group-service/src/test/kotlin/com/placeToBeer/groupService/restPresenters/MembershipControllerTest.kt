@@ -27,14 +27,20 @@ internal class MembershipControllerTest {
     }
 
     @Test
-    fun whenGetUsersByGroupId_ThenReturnList() {
+    fun whenGetUsersByGroupId_thenReturnList() {
         val isUserMemberships = membershipController.getMembershipsByGroupId(validGroupId)
         Assertions.assertThat(isUserMemberships).isEqualTo(shouldUserMemberships)
     }
 
     @Test
-    fun whenDeleteMembership_ThenServiceIsCalled() {
+    fun whenDeleteMembership_thenServiceIsCalled() {
         membershipController.deleteMembershipById(1L)
         verify(membershipService, times(1)).deleteMembershipById(1L)
+    }
+
+    @Test
+    fun whenSetRole_thenServiceIsCalled() {
+        membershipController.setRole(Role.MEMBER, 1L)
+        verify(membershipService, times(1)).setRole(1, Role.MEMBER)
     }
 }

@@ -14,6 +14,7 @@ import com.placeToBeer.groupService.gateways.GroupRepository
 import com.placeToBeer.groupService.gateways.MembershipRepository
 import com.placeToBeer.groupService.interactors.membership.DeleteMembershipInteractor
 import com.placeToBeer.groupService.interactors.membership.GroupsMembershipListInteractor
+import com.placeToBeer.groupService.interactors.membership.SetRoleInteractor
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -24,8 +25,9 @@ internal class MembershipServiceTest {
 
     private val groupsMembershipListInteractor: GroupsMembershipListInteractor = mock()
     private val deleteMembershipInteractor: DeleteMembershipInteractor = mock()
+    private val setRoleInteractor: SetRoleInteractor = mock()
 
-    private val membershipService = MembershipService(groupsMembershipListInteractor, deleteMembershipInteractor)
+    private val membershipService = MembershipService(groupsMembershipListInteractor, deleteMembershipInteractor, setRoleInteractor)
 
     private val validGroupId = 1L
     private val validMembershipId = 1L
@@ -40,6 +42,12 @@ internal class MembershipServiceTest {
     fun whenDeleteMembershipById_ThenInteractorIsExecuted() {
         membershipService.deleteMembershipById(validMembershipId)
         verify(deleteMembershipInteractor, times(1)).execute(validMembershipId)
+    }
+
+    @Test
+    fun whenSetRole_thenInteractorIsExecuted() {
+        membershipService.setRole(validMembershipId, Role.MEMBER)
+        verify(setRoleInteractor, times(1)).execute(validMembershipId, Role.MEMBER)
     }
 
 }
