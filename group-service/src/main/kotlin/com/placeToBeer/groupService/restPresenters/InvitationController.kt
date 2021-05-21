@@ -16,19 +16,9 @@ import org.springframework.web.bind.annotation.*
 class InvitationController (private val invitationService: InvitationService){
 
     @ApiOperation(value = "Receive list of invitations for specific user")
-    @GetMapping(value = [""], params = ["userId", "groupId"], produces = ["application/json;charset=UTF-8"])
-
-    fun getInvitationsListByUserId(@RequestParam(required = false, defaultValue = "-1")
-                                   @ApiParam(value = "userId", required = false)
-                                   userId: Long = -1L,
-                                   @RequestParam(required = false, defaultValue = "-1")
-                                   @ApiParam(value = "groupId", required = false)
-                                   groupId: Long = -1L): List<Any> {
-        if(userId != -1L)
-            return invitationService.getInvitationsListByUserId(userId)
-        if(groupId != -1L)
-            return invitationService.getGroupInvitationListByGroupId(groupId)
-        throw BadHttpRequest()
+    @GetMapping(value = [""], params = ["userId"], produces = ["application/json;charset=UTF-8"])
+    fun getInvitationsListByUserId(@RequestParam userId: Long): List<InvitationResponse> {
+        return invitationService.getInvitationsListByUserId(userId)
     }
 
     @ApiOperation(value = "Create or do not create a membership based on an invitation and delete the invitation")

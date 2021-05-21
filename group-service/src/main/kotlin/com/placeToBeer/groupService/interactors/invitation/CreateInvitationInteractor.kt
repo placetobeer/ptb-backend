@@ -48,32 +48,6 @@ class CreateInvitationInteractor(
         return invitationEntityList;
     }
 
-//    private fun createNewInvitationByIds(email: String, receiverId: Long, emitterId: Long, groupId: Long, role: Role) {
-//        val receiver = getUserByUserId(receiverId)
-//        val emitter = getUserByUserId(emitterId)
-//        val group = getGroupByGroupId(groupId)
-//        createNewInvitation(email, receiver, emitter, group, role)
-//    }
-//
-//    private fun createNewInvitation(email:String, receiver: User, emitter: User, group: Group, role: Role){
-//        val newInvitation = Invitation(
-//            email,
-//            receiver,
-//            emitter,
-//            group,
-//            role
-//        )
-//        invitationRepository.save(newInvitation)
-//    }
-//
-//    private fun getUserByUserId(userId:Long):User{
-//        val user = userRepository.findById(userId)
-//        return userExistValidatorPlugin.validateAndReturn(user,userId)
-//    }
-//
-    private fun getGroupByGroupId(groupId: Long):Group{
-        val group = groupRepository.findById(groupId)
-        return groupExistValidatorPlugin.validateAndReturn(group,groupId)
     private fun createNewInvitationByIds(email: String, receiverId: Long, emitterId: Long, groupId: Long, role: Role) {
         val receiver = getReceiverByEmail(email)
         val emitter = getUserByUserId(emitterId)
