@@ -4,6 +4,7 @@ import com.placeToBeer.groupService.entities.Group
 import com.placeToBeer.groupService.entities.Invitation
 import com.placeToBeer.groupService.entities.Role
 import com.placeToBeer.groupService.entities.User
+import com.placeToBeer.groupService.exceptions.UserNotFoundException
 import com.placeToBeer.groupService.gateways.GroupRepository
 import com.placeToBeer.groupService.gateways.InvitationRepository
 import com.placeToBeer.groupService.gateways.UserRepository
@@ -59,7 +60,11 @@ class CreateInvitationInteractor(
 
     private fun getReceiverByEmail(email: String): User? {
         val user = userRepository.getUserByEmail(email)
-        return userRegisteredValidatorPlugin.validateAndReturn(user, email)
+        return try{
+            userRegisteredValidatorPlugin.validateAndReturn(user, email)
+        } catch(e: UserNotFoundException){
+            null
+        }
     }
 
     private fun sendInvitationMail(userEmail: String, emitterName: String, groupName: String, role: Role) {

@@ -20,10 +20,7 @@ class UserRegisteredValidatorPlugin{
     }
 
     private fun throwUserNotFoundError(email: String) {
-        try {
             throw UserNotFoundException(0L)
-        } catch (e: UserNotFoundException){
             logger.warn("user with email $email not registered")
-        }
     }
 }
