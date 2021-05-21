@@ -7,11 +7,10 @@ import com.placeToBeer.groupService.entities.User
 import com.placeToBeer.groupService.entities.requests.InvitationRequest
 import com.placeToBeer.groupService.gateways.GroupRepository
 import com.placeToBeer.groupService.gateways.InvitationRepository
+import com.placeToBeer.groupService.gateways.MembershipRepository
 import com.placeToBeer.groupService.gateways.UserRepository
+import com.placeToBeer.groupService.plugins.*
 import com.placeToBeer.groupService.services.mail.EmailServiceImpl
-import com.placeToBeer.groupService.plugins.GroupExistValidatorPlugin
-import com.placeToBeer.groupService.plugins.UserExistValidatorPlugin
-import com.placeToBeer.groupService.plugins.UserRegisteredValidatorPlugin
 import org.springframework.stereotype.Component
 
 @Component
@@ -22,7 +21,8 @@ class CreateInvitationInteractor(
     private var invitationRepository: InvitationRepository,
     private var userExistValidatorPlugin: UserExistValidatorPlugin,
     private var groupExistValidatorPlugin: GroupExistValidatorPlugin,
-    private var userRegisteredValidatorPlugin: UserRegisteredValidatorPlugin
+    private var userRegisteredValidatorPlugin: UserRegisteredValidatorPlugin,
+    private var ownerExistValidatorPlugin: OwnerExistValidatorPlugin,
 ) {
     fun execute(invitationRequest: InvitationRequest): List<Invitation> {
         return createInvitations(invitationRequest)
@@ -31,6 +31,8 @@ class CreateInvitationInteractor(
     private fun createInvitations(invitationRequest: InvitationRequest): List<Invitation> {
         val savedInvitationEntities: MutableList<Invitation> = mutableListOf()
         for (invitation in mapToInvitationEntity(invitationRequest)) {
+            // if following true then push invitation to invitation errorList
+            ownerExistValidatorPlugin.validate(invitation);
             savedInvitationEntities.add(invitationRepository.save(invitation))
         }
         return savedInvitationEntities
