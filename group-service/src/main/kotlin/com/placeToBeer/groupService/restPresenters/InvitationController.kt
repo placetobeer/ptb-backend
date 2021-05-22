@@ -32,6 +32,7 @@ class InvitationController (private val invitationService: InvitationService){
     fun createInvitations(@RequestBody invitationRequest: InvitationRequest): List<Invitation> {
         return invitationService.createInvitations(invitationRequest)
     }
+
     /*
     //todo delete later
     @ApiOperation("Receive list of groupsInvitations by groupId" )

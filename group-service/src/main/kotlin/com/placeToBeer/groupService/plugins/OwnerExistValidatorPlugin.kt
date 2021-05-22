@@ -20,7 +20,7 @@ class OwnerExistValidatorPlugin(
     private var membershipExistValidatorPlugin: MembershipExistValidatorPlugin
 ) {
 
-    private var logger: Logger = LoggerFactory.getLogger(UserExistValidatorPlugin::class.java)
+    private var logger: Logger = LoggerFactory.getLogger(OwnerExistValidatorPlugin::class.java)
 
     fun validate(invitation: Invitation) {
         val owner = userRepository.findById(invitation.emitter.id!!)

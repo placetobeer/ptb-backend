@@ -5,6 +5,7 @@ import com.placeToBeer.groupService.entities.Invitation
 import com.placeToBeer.groupService.entities.Role
 import com.placeToBeer.groupService.entities.User
 import com.placeToBeer.groupService.entities.requests.InvitationRequest
+import com.placeToBeer.groupService.exceptions.InvalidInvitationsException
 import com.placeToBeer.groupService.gateways.GroupRepository
 import com.placeToBeer.groupService.gateways.InvitationRepository
 import com.placeToBeer.groupService.gateways.MembershipRepository
@@ -22,7 +23,7 @@ class CreateInvitationInteractor(
     private var userExistValidatorPlugin: UserExistValidatorPlugin,
     private var groupExistValidatorPlugin: GroupExistValidatorPlugin,
     private var userRegisteredValidatorPlugin: UserRegisteredValidatorPlugin,
-    private var ownerExistValidatorPlugin: OwnerExistValidatorPlugin,
+    private var invalidInvitationsValidatorPlugin: InvalidInvitationsValidatorPlugin
 ) {
     fun execute(invitationRequest: InvitationRequest): List<Invitation> {
         return createInvitations(invitationRequest)
@@ -31,8 +32,7 @@ class CreateInvitationInteractor(
     private fun createInvitations(invitationRequest: InvitationRequest): List<Invitation> {
         val savedInvitationEntities: MutableList<Invitation> = mutableListOf()
         for (invitation in mapToInvitationEntity(invitationRequest)) {
-            // if following true then push invitation to invitation errorList
-            ownerExistValidatorPlugin.validate(invitation);
+            invalidInvitationsValidatorPlugin.validate(invitation)
             savedInvitationEntities.add(invitationRepository.save(invitation))
         }
         return savedInvitationEntities
