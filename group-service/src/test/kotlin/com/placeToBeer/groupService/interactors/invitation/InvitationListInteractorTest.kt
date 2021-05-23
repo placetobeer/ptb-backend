@@ -65,14 +65,14 @@ internal class InvitationListInteractorTest {
     @Test
     fun whenExecuteWithExistingUserId_ThenReturnValidInvitationList(){
         val actualInvitationResponseList = doExecute(validUserId)
-        assertThat(actualInvitationResponseList!![0].id).isEqualTo(expectedInvitationResponseList!![0].id)
-        assertThat(actualInvitationResponseList!![0].emitter).isEqualTo(expectedInvitationResponseList!![0].emitter)
-        assertThat(actualInvitationResponseList!![0].group).isEqualTo(expectedInvitationResponseList!![0].group)
-        assertThat(actualInvitationResponseList!![0].role).isEqualTo(expectedInvitationResponseList!![0].role)
-        assertThat(actualInvitationResponseList!![1].id).isEqualTo(expectedInvitationResponseList!![1].id)
-        assertThat(actualInvitationResponseList!![1].emitter).isEqualTo(expectedInvitationResponseList!![1].emitter)
-        assertThat(actualInvitationResponseList!![1].group).isEqualTo(expectedInvitationResponseList!![1].group)
-        assertThat(actualInvitationResponseList!![1].role).isEqualTo(expectedInvitationResponseList!![1].role)
+        assertThat(actualInvitationResponseList!![0].id).isEqualTo(expectedInvitationResponseList[0].id)
+        assertThat(actualInvitationResponseList[0].emitter).isEqualTo(expectedInvitationResponseList[0].emitter)
+        assertThat(actualInvitationResponseList[0].group).isEqualTo(expectedInvitationResponseList[0].group)
+        assertThat(actualInvitationResponseList[0].role).isEqualTo(expectedInvitationResponseList[0].role)
+        assertThat(actualInvitationResponseList[1].id).isEqualTo(expectedInvitationResponseList[1].id)
+        assertThat(actualInvitationResponseList[1].emitter).isEqualTo(expectedInvitationResponseList[1].emitter)
+        assertThat(actualInvitationResponseList[1].group).isEqualTo(expectedInvitationResponseList[1].group)
+        assertThat(actualInvitationResponseList[1].role).isEqualTo(expectedInvitationResponseList[1].role)
         assertThat(exception).isNull()
     }
 
