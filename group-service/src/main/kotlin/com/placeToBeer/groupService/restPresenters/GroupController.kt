@@ -19,15 +19,15 @@ class GroupController (private val groupService: GroupService){
     }
 
     @ApiOperation(value = "Create group with owner and group name and return new group")
-    @PostMapping(value = [""], params = ["userId", "groupName"], produces = ["application/json;charset=UTF-8"])
-    fun createGroup(@RequestParam userId: Long, @RequestParam groupName: String): Group {
+    @PostMapping(value = [""], params = ["userId"], produces = ["application/json;charset=UTF-8"])
+    fun createGroup(@RequestParam userId: Long, @RequestBody groupName: String): Group {
         return groupService.createGroup(userId, groupName)
     }
 
     @ApiOperation(value = "Set group name")
     @PutMapping(value = ["/{groupId}/name"], produces = ["application/json;charset=UTF-8"])
-    fun setGroupName(@RequestBody groupName: TextNode, @PathVariable groupId: Long){
-        groupService.setGroupNameByGroupId(groupId, groupName.asText())
+    fun setGroupName(@RequestBody groupName: String, @PathVariable groupId: Long){
+        groupService.setGroupNameByGroupId(groupId, groupName)
     }
 
     @ApiOperation(value = "Delete a group")
