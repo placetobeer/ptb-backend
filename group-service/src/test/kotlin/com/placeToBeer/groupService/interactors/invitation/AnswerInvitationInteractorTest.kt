@@ -9,18 +9,15 @@ import com.placeToBeer.groupService.plugins.GroupExistValidatorPlugin
 import com.placeToBeer.groupService.plugins.InvitationExistsValidatorPlugin
 import com.placeToBeer.groupService.plugins.UserExistValidatorPlugin
 import com.placeToBeer.groupService.entities.*
-import com.placeToBeer.groupService.entities.responses.InvitationResponse
-import com.placeToBeer.groupService.exceptions.GroupNameIsInvalidException
 import com.placeToBeer.groupService.exceptions.GroupNotFoundException
 import com.placeToBeer.groupService.exceptions.InvitationNotFoundException
 import com.placeToBeer.groupService.exceptions.UserNotFoundException
-import org.assertj.core.api.Assertions
+
 import org.junit.jupiter.api.Test
 import java.lang.Exception
 import java.util.*
 import org.assertj.core.api.Assertions.*
-import org.assertj.core.condition.AnyOf
-import org.mockito.internal.matchers.Any
+
 
 
 internal class AnswerInvitationInteractorTest {
@@ -51,7 +48,6 @@ internal class AnswerInvitationInteractorTest {
 
         whenever(invitationRepository.findAll()).thenReturn(listOf(invitation1))
         whenever(membershipRepository.save(any<Membership>())).thenAnswer { invocationOnMock -> invocationOnMock.arguments[0] }
-        //whenever(membershipRepository.save(any<Membership>())).then { createdMemberships.add(Membership(group1,validUser,Role.MEMBER)) }
         whenever(userRepository.findById(validUserId)).thenReturn(Optional.of(validUser))
         whenever(userRepository.findById(invalidUserId)).thenReturn(Optional.empty())
         whenever(groupRepository.findById(validGroupId)).thenReturn(Optional.of(group1))
@@ -94,7 +90,6 @@ internal class AnswerInvitationInteractorTest {
     private fun doExecute(invitationId:Long, decision: Boolean): Membership?{
         var newMembership: Membership? = null
         try {
-
             answerInvitationInteractor.execute(invitationId , decision)
         } catch (exception: Exception){
             this.exception = exception
@@ -106,7 +101,6 @@ internal class AnswerInvitationInteractorTest {
             } catch (exception: Exception){
 
             }
-
         }
         return newMembership
     }
