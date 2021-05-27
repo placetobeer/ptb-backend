@@ -5,6 +5,7 @@ import com.placeToBeer.groupService.entities.Invitation
 import com.placeToBeer.groupService.entities.Role
 import com.placeToBeer.groupService.entities.User
 import com.placeToBeer.groupService.entities.requests.InvitationRequest
+import com.placeToBeer.groupService.exceptions.UserNotFoundException
 import com.placeToBeer.groupService.gateways.GroupRepository
 import com.placeToBeer.groupService.gateways.InvitationRepository
 import com.placeToBeer.groupService.gateways.MembershipRepository
@@ -58,5 +59,27 @@ class CreateInvitationInteractor(
     private fun getGroupByGroupId(groupId: Long): Group {
             val group = groupRepository.findById(groupId)
             return groupExistValidatorPlugin.validateAndReturn(group, groupId)
+    }
+
+    private fun getReceiverByEmail(email: String): User? {
+        val user = userRepository.getUserByEmail(email)
+        return try{
+            userRegisteredValidatorPlugin.validateAndReturn(user, email)
+        } catch(e: UserNotFoundException){
+            null
+        }
+    }
+
+    private fun sendInvitationMail(userEmail: String, emitterName: String, groupName: String, role: Role) {
+            emailServiceImpl.sendSimpleMessage(
+                userEmail,
+                "You have got an invitation to \"$groupName\" in PlaceToBeer!",
+                "Hi!\n\n you got invited by $emitterName to join the PlaceToBeer - Group: \"$groupName\" as a(n) $role!\n" +
+                        "To join this Group, you just need to create a PlaceToBeer-Account using your email-Address!\n" +
+                        "We hope to welcome you to our wonderful PlaceToBeer - Community :)\n\n" +
+                        "Greetings,\n your PlaceToBeer Team!\n" +
+                        "https://placetobeer475840703.wordpress.com/about/\n\n" +
+                        "PS: this is an auto-generated mail by the place-to-beer team"
+            )
     }
 }

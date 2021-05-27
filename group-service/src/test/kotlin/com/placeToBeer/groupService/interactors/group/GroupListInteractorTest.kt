@@ -46,7 +46,6 @@ internal class GroupListInteractorTest {
         membership2.member = expectedUser
 
         whenever(userRepository.findById(validUserId)).thenReturn(Optional.of(expectedUser))
-
         whenever(membershipRepository.findByMember(expectedUser)).thenReturn(listOf(membership1, membership2))
 
         whenever(userExistValidatorPlugin.validateAndReturn(Optional.of(expectedUser), validUserId)).thenReturn(expectedUser)
