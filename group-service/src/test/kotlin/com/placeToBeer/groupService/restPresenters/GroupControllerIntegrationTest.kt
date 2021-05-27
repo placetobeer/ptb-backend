@@ -68,7 +68,7 @@ private var objectMapper: ObjectMapper) {
         whenever(mockGroupService.createGroup(validUserId, validGroupName)).thenReturn(Group(validUserId, validGroupName))
         mockMvc.perform(MockMvcRequestBuilders.post("/groups")
                 .param("userId", "$validUserId")
-                .param("groupName", validGroupName))
+                .content(validGroupName))
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
     }
@@ -78,7 +78,7 @@ private var objectMapper: ObjectMapper) {
         whenever(mockGroupService.createGroup(validUserId, validGroupName)).thenReturn(Group(validUserId, validGroupName))
         mockMvc.perform(MockMvcRequestBuilders.post("/groups")
                 .param("userId", "$validUserId")
-                .param("groupName", validGroupName))
+                .content(validGroupName))
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
                 .andExpect(MockMvcResultMatchers.content().string(objectMapper.writeValueAsString(expectedGroup)))
@@ -89,7 +89,7 @@ private var objectMapper: ObjectMapper) {
         whenever(mockGroupService.createGroup(invalidUserId, validGroupName)).thenThrow(UserNotFoundException::class.java)
         mockMvc.perform(MockMvcRequestBuilders.post("/groups")
                 .param("userId", "$invalidUserId")
-                .param("groupName", validGroupName))
+                .content(validGroupName))
                 .andExpect(MockMvcResultMatchers.status().isNotFound)
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
     }
