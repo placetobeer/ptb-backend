@@ -9,19 +9,24 @@ import com.placeToBeer.groupService.exceptions.UserNotFoundException
 import com.placeToBeer.groupService.gateways.GroupRepository
 import com.placeToBeer.groupService.gateways.InvitationRepository
 import com.placeToBeer.groupService.gateways.MembershipRepository
+import com.placeToBeer.groupService.gateways.UserRepository
 import com.placeToBeer.groupService.plugins.*
+import com.placeToBeer.groupService.services.mail.EmailServiceImpl
 import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
 class CreateInvitationInteractor(
     private var groupRepository: GroupRepository,
+    private var userRepository: UserRepository,
     private var invitationRepository: InvitationRepository,
     private var membershipRepository: MembershipRepository,
+    private var userRegisteredValidatorPlugin: UserRegisteredValidatorPlugin,
     private var groupExistValidatorPlugin: GroupExistValidatorPlugin,
     private var userExistValidatorPlugin: UserExistValidatorPlugin,
     private var membershipExistValidatorPlugin: MembershipExistValidatorPlugin,
-    private var invalidInvitationsValidatorPlugin: InvalidInvitationsValidatorPlugin
+    private var invalidInvitationsValidatorPlugin: InvalidInvitationsValidatorPlugin,
+    private var emailServiceImpl: EmailServiceImpl
 ) {
     fun execute(invitationRequest: InvitationRequest): List<Invitation> {
         return createInvitations(invitationRequest)

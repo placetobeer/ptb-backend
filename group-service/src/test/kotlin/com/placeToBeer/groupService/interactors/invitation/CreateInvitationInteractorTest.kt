@@ -11,10 +11,9 @@ import com.placeToBeer.groupService.exceptions.UserNotFoundException
 import com.placeToBeer.groupService.gateways.GroupRepository
 import com.placeToBeer.groupService.gateways.InvitationRepository
 import com.placeToBeer.groupService.gateways.MembershipRepository
-import com.placeToBeer.groupService.plugins.GroupExistValidatorPlugin
-import com.placeToBeer.groupService.plugins.InvalidInvitationsValidatorPlugin
-import com.placeToBeer.groupService.plugins.MembershipExistValidatorPlugin
-import com.placeToBeer.groupService.plugins.UserExistValidatorPlugin
+import com.placeToBeer.groupService.gateways.UserRepository
+import com.placeToBeer.groupService.plugins.*
+import com.placeToBeer.groupService.services.mail.EmailServiceImpl
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -25,6 +24,7 @@ import java.util.Optional.of
 
 class CreateInvitationInteractorTest {
 
+    private val userRepository: UserRepository = mock()
     private val groupRepository: GroupRepository = mock()
     private val invitationRepository: InvitationRepository = mock()
     private val membershipRepository: MembershipRepository = mock()
@@ -32,9 +32,11 @@ class CreateInvitationInteractorTest {
     private val userExistValidatorPlugin: UserExistValidatorPlugin = mock()
     private val membershipExistValidatorPlugin: MembershipExistValidatorPlugin = mock()
     private val invalidInvitationsValidatorPlugin: InvalidInvitationsValidatorPlugin = mock()
+    private val userRegisteredValidatorPlugin: UserRegisteredValidatorPlugin = mock()
+    private val emailServiceImpl: EmailServiceImpl = mock()
 
-    private val createInvitationInteractor = CreateInvitationInteractor(groupRepository, invitationRepository, membershipRepository,
-        groupExistValidatorPlugin, userExistValidatorPlugin, membershipExistValidatorPlugin, invalidInvitationsValidatorPlugin)
+    private val createInvitationInteractor = CreateInvitationInteractor(groupRepository, userRepository, invitationRepository, membershipRepository,
+        userRegisteredValidatorPlugin, groupExistValidatorPlugin, userExistValidatorPlugin, membershipExistValidatorPlugin, invalidInvitationsValidatorPlugin, emailServiceImpl)
 
     private val invitationList: MutableList<InvitationItem> = mutableListOf(
         InvitationItem("a.b@gmail.com", true)
