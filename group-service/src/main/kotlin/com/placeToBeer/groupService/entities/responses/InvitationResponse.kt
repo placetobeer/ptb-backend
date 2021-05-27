@@ -8,7 +8,7 @@ import com.placeToBeer.groupService.entities.User
 class InvitationResponse(var id: Long, val emitter: User, val group: Group, val role: Role){
     constructor(invitation: Invitation): this(
 
-        invitation.id ?: 0 ,
+        invitation.id!! ,
         invitation.emitter,
         invitation.group,
         invitation.role

@@ -45,9 +45,9 @@ internal class GroupControllerTest {
 
     @Test
     fun whenSetName_thenServiceIsCalled(){
-        val groupName = TextNode("groupName")
+        val groupName = "groupName"
         groupController.setGroupName(groupName, groupId)
-        verify(mockGroupService, times(1)).setGroupNameByGroupId(groupId, groupName.asText())
+        verify(mockGroupService, times(1)).setGroupNameByGroupId(groupId, groupName)
     }
 
     @Test
