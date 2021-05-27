@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test
 import java.lang.Exception
 import java.util.*
 import java.util.Optional.empty
+import java.util.Optional.of
 
 class CreateInvitationInteractorTest {
 
@@ -48,7 +49,7 @@ class CreateInvitationInteractorTest {
     private val invalidGroup = Group(-1, "Bad group")
     private val invalidEmitter = User(-1, "Bad emitter")
     private val wrongGroup = Group(5, "Ultimate FrisBees")
-    private val invalidMembership = Membership(50, wrongGroup, validEmitter, Role.OWNER)
+    private val invalidMembership = Membership(-1, wrongGroup, validEmitter, Role.OWNER)
 
     private val expectedInvitationList: List<Invitation> = listOf(validInvitation)
 
@@ -61,9 +62,13 @@ class CreateInvitationInteractorTest {
 
     init {
         whenever(groupRepository.findById(validGroup.id!!)).thenReturn(Optional.of(validGroup))
+        whenever(groupRepository.findById(invalidGroup.id!!)).thenReturn(Optional.of(invalidGroup))
+        whenever(groupRepository.findById(wrongGroup.id!!)).thenReturn(Optional.of(wrongGroup))
         whenever(membershipRepository.findByMemberAndGroup(validEmitter, validGroup)).thenReturn(Optional.of(validMembership))
+        whenever(membershipRepository.findByMemberAndGroup(validEmitter, wrongGroup)).thenReturn(Optional.of(invalidMembership))
         whenever(invitationRepository.save(any())).thenAnswer { invocationOnMock -> invocationOnMock.arguments[0] }
         whenever(groupExistValidatorPlugin.validateAndReturn(Optional.of(validGroup), validGroup.id!!)).thenReturn(validGroup)
+        whenever(groupExistValidatorPlugin.validateAndReturn(Optional.of(wrongGroup), wrongGroup.id!!)).thenReturn(wrongGroup)
         whenever(groupExistValidatorPlugin.validateAndReturn(Optional.of(invalidGroup), invalidGroup.id!!)).thenThrow(GroupNotFoundException::class.java)
         whenever(userExistValidatorPlugin.validateAndReturn(Optional.of(validEmitter), validEmitter.id!!)).thenReturn(validEmitter)
         whenever(userExistValidatorPlugin.validateAndReturn(Optional.of(invalidEmitter), invalidEmitter.id!!)).thenThrow(UserNotFoundException::class.java)
