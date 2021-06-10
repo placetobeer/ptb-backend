@@ -4,6 +4,8 @@ import com.placeToBeer.groupService.services.InvitationService
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import com.placeToBeer.groupService.entities.*
+import com.placeToBeer.groupService.entities.requests.InvitationItem
+import com.placeToBeer.groupService.entities.requests.InvitationRequest
 import com.placeToBeer.groupService.entities.responses.InvitationResponse
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
@@ -44,6 +46,23 @@ class InvitationControllerTest(
         /*Then*/
         Assertions.assertThat(givenInvitationResponseList).isEqualTo(shouldInvitationResponseList)
     }
+
+    @Test
+    fun whenCreateInvitations_thenReturnInvitations(){
+        val invitationList: MutableList<InvitationItem> = mutableListOf(
+            InvitationItem("a.b@gmail.com", true)
+        )
+        val invitationRequest = InvitationRequest(1, User(4, "Patrick"), invitationList)
+        val shouldInvitationList: List<Invitation> = listOf(
+            Invitation("a.b@gmail.com", User(4, "Patrick"), Group(1, "Bratis Kartoffeln"), Role.ADMIN)
+        )
+        whenever(mockInvitationService.createInvitations(invitationRequest)).thenReturn(shouldInvitationList)
+
+        val givenInvitationList = invitationController.createInvitations(invitationRequest)
+
+        Assertions.assertThat(givenInvitationList).isEqualTo(shouldInvitationList)
+    }
+
     /*
     2 other UseCases:
     whenAnswerInvitation_thenCreateMembership()
