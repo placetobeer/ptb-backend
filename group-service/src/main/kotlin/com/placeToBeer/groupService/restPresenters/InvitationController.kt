@@ -1,6 +1,7 @@
 package com.placeToBeer.groupService.restPresenters
 
 
+import com.placeToBeer.groupService.entities.responses.GroupInvitation
 import com.placeToBeer.groupService.services.InvitationService
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
@@ -13,19 +14,9 @@ import org.springframework.web.bind.annotation.*
 class InvitationController (private val invitationService: InvitationService){
 
     @ApiOperation(value = "Receive list of invitations for specific user")
-    @GetMapping(value = [""], params = ["userId", "groupId"], produces = ["application/json;charset=UTF-8"])
-
-    fun getInvitationsListByUserId(@RequestParam(required = false, defaultValue = "-1")
-                                   @ApiParam(value = "userId", required = false)
-                                   userId: Long = -1L,
-                                   @RequestParam(required = false, defaultValue = "-1")
-                                   @ApiParam(value = "groupId", required = false)
-                                   groupId: Long = -1L): List<Any> {
-        if(userId != -1L)
-            return invitationService.getInvitationsListByUserId(userId)
-        if(groupId != -1L)
-            return invitationService.getGroupInvitationListByGroupId(groupId)
-        throw BadHttpRequest()
+    @GetMapping(value = ["/byUser"], params = ["userId"], produces = ["application/json;charset=UTF-8"])
+    fun getInvitationsListByUserId(@RequestParam userId: Long): List<Any> {
+        return invitationService.getInvitationsListByUserId(userId)
     }
 
     @ApiOperation(value = "Create or do not create a membership based on an invitation and delete the invitation")
@@ -34,12 +25,10 @@ class InvitationController (private val invitationService: InvitationService){
         invitationService.answerInvitationByInvitationId(invitationId, decision)
     }
 
-    /*
-    //todo delete later
+
     @ApiOperation("Receive list of groupsInvitations by groupId" )
-    @GetMapping(value = [""], params = ["groupId"], produces = ["application/json;charset=UTF-8"])
-    fun getGroupsInvitationsListBy(@RequestParam groupId: Long): List<GroupInvitation>{
+    @GetMapping(value = ["/byGroup"], params = ["groupId"], produces = ["application/json;charset=UTF-8"])
+    fun getGroupsInvitationsListByGroupId(@RequestParam groupId: Long): List<GroupInvitation>{
         return invitationService.getGroupInvitationListByGroupId(groupId)
     }
-     */
 }
