@@ -24,7 +24,7 @@ class MembershipService(private val groupsMembershipListInteractor: GroupsMember
         setRoleInteractor.execute(membershipId, role)
     }
 
-    fun getGroupsMembershipByUserId(userId: Long, groupId: Long): GroupsMembership {
+    fun getGroupsMembershipByUserIdAndGroupId(userId: Long, groupId: Long): GroupsMembership {
         return groupsMembershipInteractor.execute(userId, groupId)
     }
 }

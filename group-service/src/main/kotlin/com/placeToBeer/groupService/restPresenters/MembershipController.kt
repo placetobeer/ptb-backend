@@ -21,7 +21,7 @@ class MembershipController(private val membershipService: MembershipService) {
     @ApiOperation("Get membership of a user")
     @GetMapping(value = ["/{userId}"], params = ["groupId"], produces = ["application/json;charset=UTF-8"])
     fun getMembershipByUserIdAndGroupId(@RequestParam groupId: Long, @PathVariable userId: Long): GroupsMembership {
-        return membershipService.getGroupsMembershipByUserId(userId, groupId)
+        return membershipService.getGroupsMembershipByUserIdAndGroupId(userId, groupId)
     }
 
     @ApiOperation("Deletes membership by membershipId")
