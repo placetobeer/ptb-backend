@@ -46,4 +46,11 @@ INSERT INTO invitation (recipient_email, recipient_id, emitter_id, group_id, rol
 ('tom@mail.com','4','6','4','1'),
 ('katja@mail.com','4','3','5','0'),
 ('tom@mail.com', '6', '4', '3', '0'),
-('big-joe@mail.com', null, '4', '3', '0');
+('big-joe@mail.com', null, '4', '3', '0'),
+('katja@mail.com','4','3','5','0');
+
+INSERT INTO proposal (proposal_name, group_id, activity_type) VALUES
+('Epplesee', 1, 4),
+('Stövchen', 1, 1),
+('Oxford', 1, 0),
+('Filmabend bei Katja', 1, 6);
