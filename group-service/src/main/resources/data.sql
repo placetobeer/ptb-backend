@@ -53,4 +53,4 @@ INSERT INTO proposal (proposal_name, group_id, activity_type) VALUES
 ('Epplesee', 1, 4),
 ('Stövchen', 1, 1),
 ('Oxford', 1, 0),
-('Filmabend bei Katja', 1, 6);
+('Filmabend bei Katja', 1, 7);
