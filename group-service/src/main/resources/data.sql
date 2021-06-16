@@ -16,7 +16,8 @@ INSERT INTO user (name, email) VALUES
 ('Nana Otafrija','nOtafija@mail.com'),
 ('Pall-Bearing','pall-B@mail.com'),
 ('Waiting Service','waiting-service@mail.com'),
-('Dada awu','dada.awu@mail.com');
+('Dada awu','dada.awu@mail.com'),
+('Peter','peter@mail.com');
 
 INSERT INTO membership (group_id, member_id, role) VALUES
 ('1', '1', '2'),
