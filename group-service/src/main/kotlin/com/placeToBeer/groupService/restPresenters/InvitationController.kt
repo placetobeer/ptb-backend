@@ -1,6 +1,7 @@
 package com.placeToBeer.groupService.restPresenters
 
 
+import com.placeToBeer.groupService.entities.responses.GroupInvitation
 import com.placeToBeer.groupService.entities.Invitation
 import com.placeToBeer.groupService.entities.requests.InvitationRequest
 import com.placeToBeer.groupService.entities.responses.InvitationResponse
@@ -16,8 +17,8 @@ import org.springframework.web.bind.annotation.*
 class InvitationController (private val invitationService: InvitationService){
 
     @ApiOperation(value = "Receive list of invitations for specific user")
-    @GetMapping(value = [""], params = ["userId"], produces = ["application/json;charset=UTF-8"])
-    fun getInvitationsListByUserId(@RequestParam userId: Long): List<InvitationResponse> {
+    @GetMapping(value = ["/byUser"], params = ["userId"], produces = ["application/json;charset=UTF-8"])
+    fun getInvitationsListByUserId(@RequestParam userId: Long): List<Any> {
         return invitationService.getInvitationsListByUserId(userId)
     }
 
@@ -27,18 +28,17 @@ class InvitationController (private val invitationService: InvitationService){
         invitationService.answerInvitationByInvitationId(invitationId, decision)
     }
 
+
     @ApiOperation(value = "Create invitations")
     @PostMapping(value = [""], produces = ["application/json;charset=UTF-8"])
     fun createInvitations(@RequestBody invitationRequest: InvitationRequest): List<Invitation> {
         return invitationService.createInvitations(invitationRequest)
     }
 
-    /*
-    //todo delete later
+
     @ApiOperation("Receive list of groupsInvitations by groupId" )
-    @GetMapping(value = [""], params = ["groupId"], produces = ["application/json;charset=UTF-8"])
-    fun getGroupsInvitationsListBy(@RequestParam groupId: Long): List<GroupInvitation>{
+    @GetMapping(value = ["/byGroup"], params = ["groupId"], produces = ["application/json;charset=UTF-8"])
+    fun getGroupsInvitationsListByGroupId(@RequestParam groupId: Long): List<GroupInvitation>{
         return invitationService.getGroupInvitationListByGroupId(groupId)
     }
-     */
 }

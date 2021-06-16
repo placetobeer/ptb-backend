@@ -32,12 +32,19 @@ internal class MembershipServiceTest {
     private val membershipService = MembershipService(groupsMembershipListInteractor, deleteMembershipInteractor, setRoleInteractor, groupsMembershipInteractor)
 
     private val validGroupId = 1L
+    private val validUserId = 1L
     private val validMembershipId = 1L
 
     @Test
     fun whenGetGroupsMembershipListByGroupId_ThenInteractorIsExecuted() {
         membershipService.getGroupsMembershipListByGroupId(validGroupId)
         verify(groupsMembershipListInteractor, times(1)).execute(validGroupId)
+    }
+
+    @Test
+    fun whenGetGroupsMembershipByUserIdAndGroupId_ThenInteractorIsExecuted() {
+        membershipService.getGroupsMembershipByUserIdAndGroupId(validUserId, validGroupId)
+        verify(groupsMembershipInteractor, times(1)).execute(validUserId, validGroupId)
     }
 
     @Test

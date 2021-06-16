@@ -13,8 +13,8 @@ import com.placeToBeer.groupService.plugins.UserExistValidatorPlugin
 import org.springframework.stereotype.Component
 
 @Component
-class GroupsMembershipInteractor(private var userRepository: UserRepository, private var userExistValidatorPlugin: UserExistValidatorPlugin,
-        private var membershipRepository: MembershipRepository, private var groupRepository: GroupRepository,
+class GroupsMembershipInteractor(private var userRepository: UserRepository, private var membershipRepository: MembershipRepository,
+                                 private var groupRepository: GroupRepository, private var userExistValidatorPlugin: UserExistValidatorPlugin,
         private var groupExistValidatorPlugin: GroupExistValidatorPlugin, private var membershipExistValidatorPlugin: MembershipExistValidatorPlugin) {
 
     fun execute(userId: Long, groupId: Long): GroupsMembership {

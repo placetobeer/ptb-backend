@@ -38,7 +38,7 @@ class InvitationControllerIntegrationTest(
         @Test
         fun whenGetInvitationResponseListByUserId_withValidUserId_thenReturnHttp200(){
             whenever(mockInvitationService.getInvitationsListByUserId(validUserId)).thenReturn(validInvitationResponseList)
-            mockMvc.perform(MockMvcRequestBuilders.get("/invitations")
+            mockMvc.perform(MockMvcRequestBuilders.get("/invitations/byUser")
                 .param("userId","$validUserId"))
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
@@ -48,7 +48,7 @@ class InvitationControllerIntegrationTest(
         fun whenGetInvitationResponseListByUserId_withValidUserId_thenReturnValidAnswer(){
             whenever(mockInvitationService.getInvitationsListByUserId(validUserId)).thenReturn(validInvitationResponseList)
 
-            mockMvc.perform(MockMvcRequestBuilders.get("/invitations")
+            mockMvc.perform(MockMvcRequestBuilders.get("/invitations/byUser")
                 .param("userId","$validUserId"))
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
@@ -59,7 +59,7 @@ class InvitationControllerIntegrationTest(
         fun whenGetInvitationResponseListByUserId_withInvalidUserId_thenReturnHttp404(){
             whenever(mockInvitationService.getInvitationsListByUserId(invalidUserId)).thenThrow(InvitationNotFoundException::class.java)
 
-            mockMvc.perform(MockMvcRequestBuilders.get("/invitations")
+            mockMvc.perform(MockMvcRequestBuilders.get("/invitations/byUser")
                 .param("userId", "$invalidUserId"))
 
                 .andExpect(MockMvcResultMatchers.status().isNotFound)
