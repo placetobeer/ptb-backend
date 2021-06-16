@@ -1,0 +1,16 @@
+name: Example workflow for Codecov
+on: [push]
+jobs:
+  codacy-coverage-reporter:
+    runs-on: ubuntu-latest
+    name: codacy-coverage-reporter
+    steps:
+      - uses: actions/checkout@master
+      - name: Generate coverage-report
+        run: |
+            mvn test
+      - name: Run codacy-coverage-reporter
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: ./group-service/target/site/jacoco/jacoco.xml
