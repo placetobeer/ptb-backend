@@ -72,7 +72,7 @@ class CreateInvitationInteractor(
                     role)
             }
         }
-        return invitationEntityList;
+        return invitationEntityList
     }
 
     private fun getGroupByGroupId(groupId: Long): Group {
