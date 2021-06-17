@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @Api(description = "Operations directly related to memberships")
-@RequestMapping("/memberships")
+@RequestMapping("/api/memberships")
 class MembershipController(private val membershipService: MembershipService) {
 
     @ApiOperation("View list of memberships without groupdata that refer to a group")

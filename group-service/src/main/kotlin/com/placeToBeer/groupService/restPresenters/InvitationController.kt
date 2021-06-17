@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 
 
 @RestController
-@RequestMapping("/invitations")
+@RequestMapping("/api/invitations")
 class InvitationController (private val invitationService: InvitationService){
 
     @ApiOperation(value = "Receive list of invitations for specific user")

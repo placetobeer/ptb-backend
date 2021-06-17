@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @Api(description = "Operations directly related to groups")
-@RequestMapping("/groups")
+@RequestMapping("/api/groups")
 class GroupController (private val groupService: GroupService){
 
     @ApiOperation(value = "View list of groups that refer to the user by membership")

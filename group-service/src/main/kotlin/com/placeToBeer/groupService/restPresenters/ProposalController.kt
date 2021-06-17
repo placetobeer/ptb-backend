@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @Api(description = "Operations directly related to proposals")
-@RequestMapping("/proposals")
+@RequestMapping("/api/proposals")
 class ProposalController (private val proposalService: ProposalService) {
 
     @ApiOperation(value = "View list of proposals that refer to a group")
