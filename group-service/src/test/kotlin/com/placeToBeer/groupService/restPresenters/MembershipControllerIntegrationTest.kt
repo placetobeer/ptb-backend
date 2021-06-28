@@ -31,7 +31,7 @@ private var objectMapper: ObjectMapper) {
 
     @Test
     fun whenGetUserMembershipListByGroupId_withValidGroupId_thenReturnHttp200() {
-        mockMvc.perform(MockMvcRequestBuilders.get("/memberships")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/memberships")
                 .param("groupId", "$validGroupId"))
 
                 .andExpect(MockMvcResultMatchers.status().isOk)
@@ -42,7 +42,7 @@ private var objectMapper: ObjectMapper) {
     fun whenGetUserMembershipListByGroupId_withValidGroupId_thenReturnValidAnswer() {
         whenever(mockMembershipService.getGroupsMembershipListByGroupId(validGroupId)).thenReturn(userMemberships)
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/memberships")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/memberships")
                 .param("groupId", "$validGroupId"))
 
                 .andExpect(MockMvcResultMatchers.status().isOk)
@@ -54,7 +54,7 @@ private var objectMapper: ObjectMapper) {
     fun whenGetUserMembershipListByGroupId_withInvalidGroupId_thenReturnHttp404() {
         whenever(mockMembershipService.getGroupsMembershipListByGroupId(invalidGroupId)).thenThrow(GroupNotFoundException::class.java)
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/memberships")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/memberships")
                 .param("groupId", "$invalidGroupId"))
 
                 .andExpect(MockMvcResultMatchers.status().isNotFound)
