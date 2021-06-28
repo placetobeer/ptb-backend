@@ -56,7 +56,6 @@ class CreateInvitationInteractor(
             if (invitation.grantAdmin){
                 role = Role.ADMIN
             }
-            invitationEntityList.add(Invitation(invitation.email, invitationRequest.emitter, getGroupByGroupId(invitationRequest.groupId), role))
             val receiver = getReceiverByEmail(invitation.email)
             invitationEntityList.add(Invitation(
                 invitation.email,
