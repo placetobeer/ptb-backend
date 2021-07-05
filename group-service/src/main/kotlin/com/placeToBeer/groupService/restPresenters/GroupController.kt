@@ -1,6 +1,5 @@
 package com.placeToBeer.groupService.restPresenters
 
-import com.fasterxml.jackson.databind.node.TextNode
 import com.placeToBeer.groupService.entities.Group
 import com.placeToBeer.groupService.services.GroupService
 import io.swagger.annotations.Api
@@ -9,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @Api(description = "Operations directly related to groups")
-@RequestMapping("/groups")
+@RequestMapping("/api/groups")
 class GroupController (private val groupService: GroupService){
 
     @ApiOperation(value = "View list of groups that refer to the user by membership")

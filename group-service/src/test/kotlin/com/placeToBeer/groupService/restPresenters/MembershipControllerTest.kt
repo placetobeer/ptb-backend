@@ -17,6 +17,7 @@ internal class MembershipControllerTest {
     private val membershipController = MembershipController(membershipService)
 
     private val validGroupId = 1L
+    private val validUserId = 1L
     private val shouldUserMemberships = listOf(
             GroupsMembership(1, User(1, "Bea","bea@mail.com"), Role.OWNER),
             GroupsMembership(4, User(2, "Patrick","patrick@mail.com"), Role.ADMIN),
@@ -27,9 +28,17 @@ internal class MembershipControllerTest {
     }
 
     @Test
-    fun whenGetUsersByGroupId_thenReturnList() {
+    fun whenGetMembershipsByGroupId_thenReturnList() {
         val isUserMemberships = membershipController.getMembershipsByGroupId(validGroupId)
         Assertions.assertThat(isUserMemberships).isEqualTo(shouldUserMemberships)
+    }
+
+    @Test
+    fun whenGetMembershipByUserIdAndGroupId_thenReturnMembership() {
+        val shouldMembership = GroupsMembership(4, User(2, "Patrick","patrick@mail.com"), Role.ADMIN)
+        whenever(membershipService.getGroupsMembershipByUserIdAndGroupId(validGroupId, validUserId)).thenReturn(shouldMembership)
+        val isMembership = membershipController.getMembershipByUserIdAndGroupId(validGroupId, validUserId)
+        Assertions.assertThat(isMembership).isEqualTo(shouldMembership)
     }
 
     @Test

@@ -9,13 +9,19 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @Api(description = "Operations directly related to memberships")
-@RequestMapping("/memberships")
+@RequestMapping("/api/memberships")
 class MembershipController(private val membershipService: MembershipService) {
 
     @ApiOperation("View list of memberships without groupdata that refer to a group")
     @GetMapping(value = [""], params = ["groupId"], produces = ["application/json;charset=UTF-8"])
     fun getMembershipsByGroupId(@RequestParam groupId: Long): List<GroupsMembership> {
         return membershipService.getGroupsMembershipListByGroupId(groupId)
+    }
+
+    @ApiOperation("Get membership of a user")
+    @GetMapping(value = ["/{userId}"], params = ["groupId"], produces = ["application/json;charset=UTF-8"])
+    fun getMembershipByUserIdAndGroupId(@RequestParam groupId: Long, @PathVariable userId: Long): GroupsMembership {
+        return membershipService.getGroupsMembershipByUserIdAndGroupId(userId, groupId)
     }
 
     @ApiOperation("Deletes membership by membershipId")
